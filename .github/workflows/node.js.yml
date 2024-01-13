@@ -30,5 +30,6 @@ jobs:
         with:
           image: berrymatondo/mongi
           registry: docker.io
-          username: berrymatondo
-          password: Passjerry1+
+            echo ${{ secrets.DOCKER_USERNAME }}
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
