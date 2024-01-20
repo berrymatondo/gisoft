@@ -22,7 +22,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body suppressHydrationWarning={true} className="">
+      <body
+        suppressHydrationWarning={true}
+        className="flex flex-col justify-center items-center bg-[#1b4c48] max-h-lvh py-8 max-w-5xl mx-auto min-w-5xl"
+      >
         {/*         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -31,14 +34,13 @@ export default function RootLayout({
         > */}
         {/*           <div className="relative min-h-lvh flex flex-col justify-between bg-gradient-to-r from-[#e1f5f3] to-[#a3f8f1]">
          */}{" "}
-        <div className="relative min-h-lvh flex flex-col justify-between ">
-          <div className="absolute inset-0 -z-20 bg-gradient-to-r from-[#1c867b] to-[#0abbac]"></div>
+        <div className="relative min-h-lvh flex flex-col justify-between md:mt-4 w-full  ">
+          <div className="absolute inset-0 -z-20  rounded-lg"></div>
           <div className="w-full flex-1 flex flex-col">
             <Header />
             <MobileNav />
             <main className=" flex flex-col flex-1">{children}</main>
           </div>
-
           <Footer />
         </div>
         {/*         </ThemeProvider>

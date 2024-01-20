@@ -52,9 +52,9 @@ import GroupesList from "@/components/groupes/groupesList";
 export default function GisPage() {
   const [showForm, setShowForm] = useState(false);
   return (
-    <div className=" h-full flex-1 px-1">
+    <div className="h-full flex-1 px-1 w-full">
       <Tabs defaultValue="group" className="w-full ">
-        <TabsList className="grid w-full grid-cols-2 bg-[#1b4c48]">
+        <TabsList className="grid w-full grid-cols-2 bg-[#36625f] text-teal-200 ">
           <TabsTrigger value="group">Groupes</TabsTrigger>
           <TabsTrigger value="secteur">Secteurs</TabsTrigger>
         </TabsList>

@@ -76,9 +76,13 @@ const SecteursList = () => {
                  */}{" "}
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Secteur</TableHead>
-                    <TableHead>{"Référent"}</TableHead>
-                    <TableHead className="text-right">Groupes</TableHead>
+                    <TableHead className=" text-teal-200">Secteur</TableHead>
+                    <TableHead className=" text-teal-200">
+                      {"Référent"}
+                    </TableHead>
+                    <TableHead className="text-right text-teal-200">
+                      Groupes
+                    </TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>

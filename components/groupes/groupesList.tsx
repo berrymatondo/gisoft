@@ -76,10 +76,14 @@ const GroupesList = () => {
                  */}{" "}
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="w-[100px]">Groupe</TableHead>
-                    <TableHead>Secteur</TableHead>
-                    <TableHead>Pilote</TableHead>
-                    <TableHead className="text-right">Effectif</TableHead>
+                    <TableHead className="w-[100px] text-teal-200 ">
+                      Groupe
+                    </TableHead>
+                    <TableHead className=" text-teal-200 ">Secteur</TableHead>
+                    <TableHead className=" text-teal-200 ">Pilote</TableHead>
+                    <TableHead className="text-right text-teal-200">
+                      Effectif
+                    </TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>

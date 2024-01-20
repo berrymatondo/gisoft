@@ -18,7 +18,57 @@ import {
   SelectValue,
 } from "../ui/select";
 
+import * as z from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "../ui/form";
+import { secteurFormSchema } from "@/lib/schema";
+import { addSecteur } from "@/app/_actions";
+
+/* const secteurFormSchema = z.object({
+  name: z.string().min(3, "mini"),
+});
+ */
+const refLis = [
+  { id: 1, name: "Roston" },
+  { id: 2, name: "Djedou" },
+  { id: 3, name: "Donny" },
+  { id: 4, name: "Jason" },
+  { id: 5, name: "Loïc" },
+];
+
 const AddSecteurForm = () => {
+  const form = useForm<z.infer<typeof secteurFormSchema>>({
+    resolver: zodResolver(secteurFormSchema),
+    defaultValues: {
+      name: "",
+    },
+  });
+
+  const procesForm = async (values: z.infer<typeof secteurFormSchema>) => {
+    console.log("Values:", values);
+
+    const res = await addSecteur(values);
+
+    if (!res) {
+      console.log("Une erreur est sub...");
+    }
+
+    if (res!.error) {
+      console.log(res!.error);
+      return;
+    }
+
+    console.log("RES:", res!.data);
+  };
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -29,9 +79,29 @@ const AddSecteurForm = () => {
           <DialogTitle>Ajouter un nouveau secteur</DialogTitle>
           {/*  */}
         </DialogHeader>
-        <div className="grid gap-4 py-4">
-          <form>
-            <div className="grid w-full items-center gap-4">
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(procesForm)}>
+            <div className="grid gap-4 py-4">
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => {
+                  return (
+                    <FormItem>
+                      <FormLabel>Nom du secteur</FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          placeholder="Entrer le nom du secteur"
+                          type="text"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  );
+                }}
+              />
+              {/*             <div className="grid w-full items-center gap-4">
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="name">{"Nom du secteur"}</Label>
                 <Input id="name" placeholder="Entrer le nom du secteur" />
@@ -40,21 +110,24 @@ const AddSecteurForm = () => {
                 <Label htmlFor="framework">{"Référent"}</Label>
                 <Select>
                   <SelectTrigger id="framework">
-                    <SelectValue placeholder="Select" />
+                    <SelectValue placeholder="Selectionner un référent" />
                   </SelectTrigger>
                   <SelectContent position="popper">
-                    <SelectItem value="next">Roston</SelectItem>
-                    <SelectItem value="sveltekit">{"Loïc"}</SelectItem>
-                    <SelectItem value="astro">Berry</SelectItem>
+                    {refLis.map((ref) => (
+                      <SelectItem key={ref.id} value={ref.name}>
+                        {ref.name}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
+            </div> */}
             </div>
+            <DialogFooter>
+              <Button type="submit">Enregistrer</Button>
+            </DialogFooter>
           </form>
-        </div>
-        <DialogFooter>
-          <Button type="submit">Enregistrer</Button>
-        </DialogFooter>
+        </Form>
       </DialogContent>
     </Dialog>
   );

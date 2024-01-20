@@ -49,7 +49,7 @@ const navList = [
 
 const MobileNav = () => {
   return (
-    <div className="flex justify-between items-center p-2 my-2 mx-1 text-white bg-[#1b4c48] rounded-md">
+    <div className="md:hidden flex justify-between items-center p-2 my-2 mx-1 text-white bg-[#1b4c48] rounded-md">
       {navList.map((nav) => (
         <Link key={nav.id} href={nav.href}>
           <span className={`flex flex-col items-center ${nav.color}`}>
