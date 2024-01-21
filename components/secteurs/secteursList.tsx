@@ -19,8 +19,9 @@ import {
   TableRow,
 } from "../ui/table";
 import AddSecteurForm from "./addSecteurForm";
+import { Secteur } from "@prisma/client";
 
-const invoices = [
+/* const invoices = [
   {
     invoice: "Forest_1",
     secteur: "Forest",
@@ -52,10 +53,18 @@ const invoices = [
     referent: "Coco",
   },
 ];
+ */
+type SecteursListProps = {
+  secteurs: any;
+};
 
-const SecteursList = () => {
+const SecteursList = ({ secteurs }: SecteursListProps) => {
   return (
     <Card className="w-full bg-[#1b4c48] text-white">
+      {/*       {secteurs.map((sec: Secteur) => (
+        <p>{sec.name}</p>
+      ))} */}
+
       <CardHeader>
         <div className="flex justify-between items-center">
           <CardTitle>{"Liste des secteurs"}</CardTitle>
@@ -86,15 +95,13 @@ const SecteursList = () => {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {invoices.map((invoice) => (
-                    <TableRow key={invoice.invoice}>
+                  {secteurs.map((secteur: Secteur) => (
+                    <TableRow key={secteur.id}>
                       <TableCell className="font-medium">
-                        {invoice.secteur}
+                        {secteur.name}
                       </TableCell>
-                      <TableCell>{invoice.referent}</TableCell>
-                      <TableCell className="text-right">
-                        {invoice.totalAmount}
-                      </TableCell>
+                      <TableCell>{secteur.name}</TableCell>
+                      <TableCell className="text-right">{secteur.id}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

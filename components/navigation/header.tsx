@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { ModeToggle } from "../modeToggle";
 import logo from "../../public/logo.png";
@@ -5,6 +6,7 @@ import Image from "next/image";
 import { Label } from "../ui/label";
 import Link from "next/link";
 import { Button } from "../ui/button";
+import { usePathname } from "next/navigation";
 const links = [
   { link: "/dashboard", name: "Dashboard" },
   { link: "/meetings", name: "Réunions" },
@@ -14,6 +16,9 @@ const links = [
 ];
 
 const Header = () => {
+  const pathName = usePathname();
+  console.log("Path name: " + pathName);
+
   return (
     <div className="border-b border-white border-opacity-20 pb-4 w-full">
       <nav className="flex justify-between items-center p-2 md:p-4 bg-[#1b4c48] md:rounded-lg">
@@ -25,7 +30,11 @@ const Header = () => {
         <div className="max-md:hidden text-white flex gap-4">
           {links.map((lk) => (
             <Link
-              className="hover:text-yellow-400 text-lg"
+              className={
+                pathName === lk.link
+                  ? "hover:text-yellow-400 text-lg text-yellow-400"
+                  : "hover:text-yellow-400 text-lg"
+              }
               key={lk.name}
               href={lk.link}
             >

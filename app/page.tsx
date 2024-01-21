@@ -54,7 +54,7 @@ export default function Home() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <Label className=" text-white text-md md:text-lg font-normal md:text-end ">
+              <Label className=" text-white md:text-md md:text-lg font-normal md:text-end ">
                 {
                   "Cet outil offre au Pilote du Groupe d'Impact une possibilité de stocker les informations utiles sur la gestion d'un GI. Il permet une traçabilité des activités entreprises au sein du GI semaine après semaine ( dans le suivi et accompagnement de membres, sur la présence ou pas aux réunions, et autres données statistiques en rapport avec le soin des âmes qui lui sont confiées)."
                 }

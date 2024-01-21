@@ -1,5 +1,3 @@
-"use client";
-
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -48,9 +46,12 @@ import bgImage from "../../public/logo1.png";
 import AddSecteurForm from "@/components/secteurs/addSecteurForm";
 import SecteursList from "@/components/secteurs/secteursList";
 import GroupesList from "@/components/groupes/groupesList";
+import { prisma } from "@/lib/prisma";
 
-export default function GisPage() {
-  const [showForm, setShowForm] = useState(false);
+export default async function GisPage() {
+  const secteurs = await prisma.secteur.findMany();
+  //console.log("Secteurs:", secteurs);
+
   return (
     <div className="h-full flex-1 px-1 w-full">
       <Tabs defaultValue="group" className="w-full ">
@@ -63,7 +64,7 @@ export default function GisPage() {
           <GroupesList />
         </TabsContent>
         <TabsContent value="secteur">
-          <SecteursList />
+          <SecteursList secteurs={secteurs} />
         </TabsContent>
       </Tabs>
     </div>
