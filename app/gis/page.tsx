@@ -47,10 +47,20 @@ import AddSecteurForm from "@/components/secteurs/addSecteurForm";
 import SecteursList from "@/components/secteurs/secteursList";
 import GroupesList from "@/components/groupes/groupesList";
 import { prisma } from "@/lib/prisma";
+import { getGisAction } from "../_actions";
 
 export default async function GisPage() {
-  const secteurs = await prisma.secteur.findMany();
-  //console.log("Secteurs:", secteurs);
+  const secteurs = await prisma.secteur.findMany({
+    include: {
+      gis: true,
+    },
+  });
+  // Get groupes
+  const gis = await getGisAction();
+  // const gis = await prisma.gi.findMany();
+  // console.log("GISS LE:", giss);
+  //console.log("GIS LE:", gis);
+  // console.log("SECTEUR LE:", secteurs);
 
   return (
     <div className="h-full flex-1 px-1 w-full">
@@ -61,7 +71,7 @@ export default async function GisPage() {
         </TabsList>
 
         <TabsContent value="group">
-          <GroupesList />
+          <GroupesList gis={gis} secteurs={secteurs} />
         </TabsContent>
         <TabsContent value="secteur">
           <SecteursList secteurs={secteurs} />

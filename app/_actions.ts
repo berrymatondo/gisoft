@@ -1,33 +1,25 @@
 "use server";
-import { prisma } from "@/lib/prisma";
+
+import { addGi, getGis } from "@/lib/gis";
 import { secteurFormSchema } from "@/lib/schema";
-import { revalidatePath } from "next/cache";
+import { getSecteurs } from "@/lib/secteurs";
 import { z } from "zod";
 
 type Inputs = z.infer<typeof secteurFormSchema>;
 
-export const addSecteur = async (data: Inputs) => {
-  const resut = secteurFormSchema.safeParse(data);
+// SECTEURS
 
-  if (resut.success) {
-    const user = await prisma.secteur.create({
-      data: {
-        name: data.name,
-      },
-    });
+export const getSecteursAction = async () => {
+  return await getSecteurs();
+};
 
-    revalidatePath("/gis");
+// GROUPES
+export const addGiAction = async (data: Inputs) => {
+  // console.log("new gi:", data);
 
-    return {
-      success: true,
-      data: user,
-    };
-  }
+  return await addGi(data);
+};
 
-  if (resut.error) {
-    return {
-      success: false,
-      error: resut.error.format(),
-    };
-  }
+export const getGisAction = async () => {
+  return await getGis();
 };

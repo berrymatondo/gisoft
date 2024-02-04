@@ -42,7 +42,7 @@ export default function Home() {
         />
       </div>
       <div className="flex-1 max-h-[200px] md:hidden"></div>
-      <Card className="w-full bg-transparent text-white text-center border-none md:mt-24">
+      <Card className="w-full bg-transparent text-white text-center border-none md:mt-24 max-md:mt-60">
         <Label className="md:hidden text-5xl text-white bg-opacity-90 bg-teal-700 p-1 rounded-md">
           Mon<strong className="text-yellow-400">GI</strong>
         </Label>

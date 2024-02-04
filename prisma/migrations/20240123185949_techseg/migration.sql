@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Secteur" ADD COLUMN     "createAt" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
+ADD COLUMN     "updatedAt" TIMESTAMP(3);

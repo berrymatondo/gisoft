@@ -18,26 +18,24 @@ import {
   TableHeader,
   TableRow,
 } from "../ui/table";
-import AddSecteurForm from "./addSecteurForm";
-import { Secteur } from "@prisma/client";
-import UpdateSecteurForm from "./updateSecteurForm";
-import DeleteSecteurForm from "./deleteSecteurForm";
+import { Person, Secteur } from "@prisma/client";
 
-type SecteursListProps = {
-  secteurs: any;
+type MembersListProps = {
+  members: any;
 };
 
-const SecteursList = ({ secteurs }: SecteursListProps) => {
+const MembersList = ({ members }: MembersListProps) => {
   return (
     <Card className="w-full bg-[#1b4c48] text-white">
       <CardHeader>
         <div className="flex justify-between items-center">
           <CardTitle>
-            {"Liste des secteurs ("}
-            {secteurs.length}
+            {"Liste des membres ("}
+            {members.length}
             {")"}
           </CardTitle>
-          <AddSecteurForm />
+          {/*           <AddSecteurForm />
+           */}{" "}
         </div>
         <CardDescription className="text-yellow-400">
           {
@@ -65,19 +63,19 @@ const SecteursList = ({ secteurs }: SecteursListProps) => {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {secteurs.map((secteur: Secteur) => (
+                  {members.map((member: Person) => (
                     <TableRow
-                      key={secteur.id}
+                      key={member.id}
                       onClick={() => console.log("ici:")}
                     >
                       <TableCell className="font-medium">
-                        {secteur.name}
+                        {member.firstname}
                       </TableCell>
-                      <TableCell>{secteur.name}</TableCell>
+                      <TableCell>{member.lastname}</TableCell>
                       <TableCell className="flex justify-end items-center gap-4 ">
-                        <DeleteSecteurForm secteur={secteur} />
+                        {/*                         <DeleteSecteurForm secteur={secteur} />
 
-                        <UpdateSecteurForm secteur={secteur} />
+                        <UpdateSecteurForm secteur={secteur} /> */}
                       </TableCell>
                     </TableRow>
                   ))}
@@ -97,4 +95,4 @@ const SecteursList = ({ secteurs }: SecteursListProps) => {
   );
 };
 
-export default SecteursList;
+export default MembersList;

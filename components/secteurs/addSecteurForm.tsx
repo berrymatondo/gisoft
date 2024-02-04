@@ -31,13 +31,10 @@ import {
   FormMessage,
 } from "../ui/form";
 import { secteurFormSchema } from "@/lib/schema";
-import { addSecteur } from "@/app/_actions";
+import { addSecteur } from "@/app/_actionsSecteur";
 import { useState } from "react";
+import { toast } from "sonner";
 
-/* const secteurFormSchema = z.object({
-  name: z.string().min(3, "mini"),
-});
- */
 const refLis = [
   { id: 1, name: "Roston" },
   { id: 2, name: "Djedou" },
@@ -57,7 +54,7 @@ const AddSecteurForm = () => {
   });
 
   const procesForm = async (values: z.infer<typeof secteurFormSchema>) => {
-    console.log("Values:", values);
+    //console.log("Values:", values);
 
     const res = await addSecteur(values);
 
@@ -66,11 +63,13 @@ const AddSecteurForm = () => {
     }
 
     if (res!.error) {
-      console.log(res!.error);
+      //console.log(res!.error);
       return;
     }
 
-    console.log("RES:", res!.data);
+    toast.success("Secteur créé avec succes.", {
+      description: new Date().toISOString().split("T")[0],
+    });
     setOpen(false);
   };
 
@@ -84,7 +83,6 @@ const AddSecteurForm = () => {
           <DialogTitle className="text-yellow-400">
             Ajouter un nouveau secteur
           </DialogTitle>
-          {/*  */}
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(procesForm)}>
@@ -128,61 +126,14 @@ const AddSecteurForm = () => {
                           ))}
                         </SelectContent>
                       </Select>
-                      {/*                   <Select onValueChange={field.onChange}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select an account type" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="Pilote">Pilote</SelectItem>
-                      <SelectItem value="Référent">Référent</SelectItem>
-                    </SelectContent>
-                  </Select> */}
+
                       <FormMessage />
                     </FormItem>
                   );
                 }}
               />
-              {/* 
-              <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="framework">{"Référent"}</Label>
-                <Select>
-                  <SelectTrigger id="framework">
-                    <SelectValue placeholder="Selectionner un référent" />
-                  </SelectTrigger>
-                  <SelectContent position="popper">
-                    {refLis.map((ref) => (
-                      <SelectItem key={ref.id} value={ref.name}>
-                        {ref.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div> */}
-              {/*             <div className="grid w-full items-center gap-4">
-              <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="name">{"Nom du secteur"}</Label>
-                <Input id="name" placeholder="Entrer le nom du secteur" />
-              </div>
-              <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="framework">{"Référent"}</Label>
-                <Select>
-                  <SelectTrigger id="framework">
-                    <SelectValue placeholder="Selectionner un référent" />
-                  </SelectTrigger>
-                  <SelectContent position="popper">
-                    {refLis.map((ref) => (
-                      <SelectItem key={ref.id} value={ref.name}>
-                        {ref.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-            </div> */}
             </div>
-            <DialogFooter className="md:flex md:justify-between md:items-center">
+            <DialogFooter className="md:flex md:justify-between md:items-center  max-md:mt-8">
               <DialogClose asChild>
                 <Button
                   type="button"

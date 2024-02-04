@@ -17,7 +17,6 @@ const links = [
 
 const Header = () => {
   const pathName = usePathname();
-  console.log("Path name: " + pathName);
 
   return (
     <div className="border-b border-white border-opacity-20 pb-4 w-full">

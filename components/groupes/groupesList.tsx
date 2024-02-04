@@ -1,5 +1,4 @@
-"use client";
-import React, { useState } from "react";
+import React, { use, useState } from "react";
 import {
   Card,
   CardContent,
@@ -19,46 +18,35 @@ import {
   TableRow,
 } from "../ui/table";
 import AddGroupForm from "./addGroupeForm";
+import AddGroup from "./addGroup";
+import { getGis } from "@/lib/gis";
+import { Gi } from "@prisma/client";
+import DeleteGiForm from "./deleteGiForum";
+import UpdateGiForm from "./updateGiForm";
+import { unstable_noStore as noStore } from "next/cache";
+import GiRow from "./giRow";
 
-const invoices = [
-  {
-    invoice: "Forest_1",
-    paymentStatus: "Forest",
-    totalAmount: "32",
-    paymentMethod: "Roston",
-  },
-  {
-    invoice: "Forest_2",
-    paymentStatus: "Forest",
-    totalAmount: "22",
-    paymentMethod: "Marylène",
-  },
-  {
-    invoice: "Forest_3",
-    paymentStatus: "Forest",
-    totalAmount: "31",
-    paymentMethod: "Bery",
-  },
-  {
-    invoice: "Forest_4",
-    paymentStatus: "Forest",
-    totalAmount: "26",
-    paymentMethod: "Francine",
-  },
-  {
-    invoice: "Forest_5",
-    paymentStatus: "Forest",
-    totalAmount: "44",
-    paymentMethod: "Coco",
-  },
-];
+type GroupesListProps = {
+  gis: any;
+  secteurs: any;
+};
 
-const GroupesList = () => {
+const GroupesList = ({ gis, secteurs }: GroupesListProps) => {
+  noStore();
+  // const gisr = getGis();
+
+  //console.log("GIS secteurs av  :", secteurs);
+  // console.log("GIS  av  :", gis);
+
   return (
     <Card className="w-full bg-[#1b4c48] text-white">
       <CardHeader>
         <div className="flex justify-between items-center">
-          <CardTitle>{"Les groupes d'impact"}</CardTitle>
+          <CardTitle>
+            {"Les groupes d'impact ("}
+            {gis.length}
+            {")"}
+          </CardTitle>
           <AddGroupForm />
         </div>
         <CardDescription className="text-yellow-400">
@@ -72,40 +60,27 @@ const GroupesList = () => {
           <div className="grid w-full items-center gap-4">
             <div className="flex flex-col space-y-1.5">
               <Table>
-                {/*                   <TableCaption>A list of your recent invoices.</TableCaption>
-                 */}{" "}
                 <TableHeader>
                   <TableRow>
                     <TableHead className="w-[100px] text-teal-200 ">
                       Groupe
                     </TableHead>
-                    <TableHead className=" text-teal-200 ">Secteur</TableHead>
+                    <TableHead className=" text-teal-200 max-md:hidden">
+                      Secteur
+                    </TableHead>
+
                     <TableHead className=" text-teal-200 ">Pilote</TableHead>
+                    <TableHead className=" text-teal-200 ">Effectif</TableHead>
                     <TableHead className="text-right text-teal-200">
-                      Effectif
+                      Actions
                     </TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {invoices.map((invoice) => (
-                    <TableRow key={invoice.invoice}>
-                      <TableCell className="font-medium">
-                        {invoice.invoice}
-                      </TableCell>
-                      <TableCell>{invoice.paymentStatus}</TableCell>
-                      <TableCell>{invoice.paymentMethod}</TableCell>
-                      <TableCell className="text-right">
-                        {invoice.totalAmount}
-                      </TableCell>
-                    </TableRow>
+                  {gis.map((gi: any) => (
+                    <GiRow key={gi.id} gi={gi} secteurs={secteurs} />
                   ))}
                 </TableBody>
-                <TableFooter>
-                  <TableRow>
-                    <TableCell colSpan={3}>Total</TableCell>
-                    <TableCell className="text-right">157</TableCell>
-                  </TableRow>
-                </TableFooter>
               </Table>
             </div>
           </div>
