@@ -16,8 +16,7 @@ export const Header = ({ label }: IHeaderProps) => {
     <div
       className={cn("flex flex-col items-center justify-center w-full h-1/2")}
     >
-      <h1 className={cn("text-3xl font-bold", font.className)}>Connexion</h1>
-      <p className="text-muted-foreground text-sm">{label}</p>
+      <h1 className={cn("text-3xl font-bold", font.className)}>{label}</h1>
     </div>
   );
 };
