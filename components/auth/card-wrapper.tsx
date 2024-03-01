@@ -2,6 +2,7 @@
 
 import { Card, CardContent, CardFooter, CardHeader } from "../ui/card";
 import { Header } from "../auth/header";
+import { BackButton } from "../auth/back-button";
 
 interface ICardWrapperProps {
   children: React.ReactNode;
@@ -21,9 +22,10 @@ export const CardWrapper = ({
       <CardHeader>
         <Header label={headerLabel} />
       </CardHeader>
-      <CardContent>
-        {children}
-    </CardContent>
+      <CardContent>{children}</CardContent>
+      <CardFooter>
+        <BackButton label={backButtonLabel} href={backButtonHref} />
+      </CardFooter>
     </Card>
   );
 };
