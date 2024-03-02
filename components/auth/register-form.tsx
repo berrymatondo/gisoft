@@ -19,10 +19,10 @@ import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
 import { RegisterSchema } from "@/schemas";
 import { CardWrapper } from "./card-wrapper";
-import { login } from "@/app/_login-action";
+import { login } from "@/app/_login-user";
 import { FormError } from "../form-error";
 import { FormSuccess } from "../form-success";
-import { Check } from "lucide-react";
+import { Select } from "../ui/select";
 
 export const RegisterForm = () => {
   const [isPending, startTransition] = useTransition();
@@ -54,7 +54,7 @@ export const RegisterForm = () => {
   return (
     <CardWrapper
       headerLabel="Nouveau compte"
-      backButtonLabel="As-tu dejà un compte ?"
+      backButtonLabel="Vous avez dejà un compte ?"
       backButtonHref="/auth/login"
     >
       <Form {...form}>
@@ -138,13 +138,13 @@ export const RegisterForm = () => {
               control={form.control}
               name="isAdmin"
               render={({ field }) => (
-                <label className="col-span-2 flex items-center text-black">
+                <FormLabel className="col-span-2 flex items-center text-black">
                   <Checkbox
                     checked={field.value}
                     className="mr-2" // Ajoute une marge à droite pour séparer la case à cocher du texte
                   />
                   <span>Administrateur ?</span>
-                </label>
+                </FormLabel>
               )}
             />
           </div>

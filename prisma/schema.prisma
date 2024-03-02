@@ -10,61 +10,59 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model Secteur {
-  id Int @id @default(autoincrement())
+  id   Int    @id @default(autoincrement())
   name String @unique
-  gis Gi[]
+  gis  Gi[]
 
   personId Int?
-  person Person? @relation(fields: [personId], references: [id]) 
-  
-  createAt DateTime? @default(now())
-  updatedAt DateTime?  @updatedAt
+  person   Person? @relation(fields: [personId], references: [id])
+
+  createAt  DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
 }
 
 model Gi {
-  id Int @id @default(autoincrement())
-  name String @unique
-  persons Person[] 
+  id      Int      @id @default(autoincrement())
+  name    String   @unique
+  persons Person[]
 
-  
   secteurId Int?
-  secteur Secteur? @relation(fields: [secteurId], references: [id])
-  
-  createAt DateTime? @default(now())
-  updatedAt DateTime?  @updatedAt
+  secteur   Secteur? @relation(fields: [secteurId], references: [id])
+
+  createAt  DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
 }
 
 model Person {
-  id Int @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   firstname String
-  lastname String
-  email String
-  mobile String
-  isPilote Boolean
-  secteurs Secteur[]
-  
-  giId Int?
-  gi Gi? @relation(fields: [giId], references: [id]) 
+  lastname  String
+  email     String
+  mobile    String
+  isPilote  Boolean
+  secteurs  Secteur[]
 
-  createAt DateTime? @default(now())
-  updatedAt DateTime?  @updatedAt
+  giId Int?
+  gi   Gi?  @relation(fields: [giId], references: [id])
+
+  createAt  DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
 }
 
 model Account {
-  id                 String  @id @default(cuid())
-  userId             Int
-  type               String
-  provider           String
-  providerAccountId  String
-  refresh_token      String?  @db.Text
-  access_token       String?  @db.Text
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String?  @db.Text
-  session_state      String?
+  id                String  @id @default(cuid())
+  userId            Int
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -72,20 +70,21 @@ model Account {
 }
 
 model User {
-  id            Int    @id @default(autoincrement())
+  id            Int       @id @default(autoincrement())
   name          String?
   email         String?   @unique
-  isAdmin       Boolean?
-  // emailVerified DateTime?
+  isPilot       Boolean?
+  emailVerified DateTime?
   //image         String?
+  password      String?
   accounts      Account[]
   // sessions      Session[]
 }
 
-model VerificationToken {
-  identifier String
-  token      String   @unique
-  expires    DateTime
+// model VerificationToken {
+//   identifier String
+//   token      String   @unique
+//   expires    DateTime
 
-  @@unique([identifier, token])
-}
+//   @@unique([identifier, token])
+// }

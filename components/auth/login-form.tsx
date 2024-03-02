@@ -18,7 +18,7 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { LoginSchema } from "@/schemas";
 import { CardWrapper } from "./card-wrapper";
-import { login } from "@/app/_login-action";
+import { login } from "@/app/_login-user";
 import { FormError } from "../form-error";
 import { FormSuccess } from "../form-success";
 
@@ -50,7 +50,7 @@ export const LoginForm = () => {
   return (
     <CardWrapper
       headerLabel="Connexion"
-      backButtonLabel="Tu n'as pas encore de compte? Inscrivez-vous"
+      backButtonLabel="Vous n'avez pas encore de compte? Inscrivez-vous"
       backButtonHref="/auth/register"
     >
       <Form {...form}>
