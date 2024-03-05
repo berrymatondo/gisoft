@@ -23,4 +23,5 @@ export const RegisterSchema = z.object({
     message: "Confirmer votre mot de passe",
   }),
   isAdmin: z.boolean().optional().default(false),
+  giId: z.string().optional(),
 });

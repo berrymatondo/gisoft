@@ -26,6 +26,7 @@ model Gi {
   id      Int      @id @default(autoincrement())
   name    String   @unique
   persons Person[]
+  users   User[]
 
   secteurId Int?
   secteur   Secteur? @relation(fields: [secteurId], references: [id])
@@ -70,15 +71,23 @@ model Account {
 }
 
 model User {
-  id            Int       @id @default(autoincrement())
-  name          String?
-  email         String?   @unique
-  isPilot       Boolean?
-  emailVerified DateTime?
-  //image         String?
-  password      String?
-  accounts      Account[]
+  id       Int       @id @default(autoincrement())
+  name     String?
+  email    String?   @unique
+  isPilot  Boolean?  @default(true)
+  password String?
+  giId     Int?
+  gi       Gi?       @relation(fields: [giId], references: [id])
+  accounts Account[]
+
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
   // sessions      Session[]
+}
+
+enum Role {
+  USER
+  ADMIN
 }
 
 // model VerificationToken {

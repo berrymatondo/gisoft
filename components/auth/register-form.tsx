@@ -1,10 +1,12 @@
+/* eslint-disable react/no-unescaped-entities */
 "use client";
 
 import { useForm, Controller } from "react-hook-form";
+import { Gi } from "@prisma/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { toast } from "sonner"; // Je compte l'utiliser au cas où la connexion est réussie.
-import { useTransition, useState } from "react";
+import { useTransition, useState, useEffect } from "react";
 
 import {
   Form,
@@ -22,12 +24,22 @@ import { CardWrapper } from "./card-wrapper";
 import { login } from "@/app/_login-user";
 import { FormError } from "../form-error";
 import { FormSuccess } from "../form-success";
-import { Select } from "../ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import { getGisAction } from "@/app/_actions";
 
 export const RegisterForm = () => {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
+  const [gis, setGis] = useState<any>();
 
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
@@ -51,6 +63,27 @@ export const RegisterForm = () => {
     });
   };
 
+  useEffect(() => {
+    const fetchGis = async () => {
+      const allGis = await getGisAction();
+      setGis(allGis);
+    };
+
+    fetchGis();
+  }, []);
+
+  // const getGis = async () => {
+  //   try {
+  //     const allGis = await getGisAction();
+  //     if (Array.isArray(allGis)) {
+  //       setGis(allGis);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+
   return (
     <CardWrapper
       headerLabel="Nouveau compte"
@@ -60,7 +93,7 @@ export const RegisterForm = () => {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <div className="space-y-4">
-            <FormField
+            {/* <FormField
               control={form.control}
               name="name"
               render={({ field }) => (
@@ -76,7 +109,7 @@ export const RegisterForm = () => {
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
 
             <FormField
               control={form.control}
@@ -94,6 +127,32 @@ export const RegisterForm = () => {
                   <FormMessage />
                 </FormItem>
               )}
+            />
+            <FormField
+              control={form.control}
+              name="giId"
+              render={({ field }) => {
+                return (
+                  <FormItem>
+                    <FormLabel>Groupe d'Impact</FormLabel>
+                    <Select
+                      disabled={form.watch("isAdmin")}
+                      onValueChange={field.onChange}
+                    >
+                      <SelectTrigger id="framework">
+                        <SelectValue placeholder="Sélectionner un GI" />
+                      </SelectTrigger>
+                      <SelectContent position="popper">
+                        {gis?.map((gi: Gi) => (
+                          <SelectItem key={gi.id} value={gi.id.toString()}>
+                            {gi.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </FormItem>
+                );
+              }}
             />
 
             <FormField
