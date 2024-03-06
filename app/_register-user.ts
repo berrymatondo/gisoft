@@ -5,6 +5,7 @@ import bcrypt from "bcrypt";
 
 import { RegisterSchema } from "@/schemas";
 import { prisma } from "../lib/prisma";
+import { getUserByEmail } from "@/lib/user";
 
 export const register = async (data: z.infer<typeof RegisterSchema>) => {
   const validatedFields = RegisterSchema.safeParse(data);
@@ -18,11 +19,12 @@ export const register = async (data: z.infer<typeof RegisterSchema>) => {
   const { email, password, name, isAdmin } = validatedFields.data;
   const passwordHash = await bcrypt.hash(password, 10);
 
-  const user_exists = await prisma.user.findUnique({
-    where: {
-      email,
-    },
-  });
+  // const user_exists = await prisma.user.findUnique({
+  //   where: {
+  //     email,
+  //   },
+  // });
+  const user_exists = await getUserByEmail(email);
 
   if (user_exists) {
     return {
