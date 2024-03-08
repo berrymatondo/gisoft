@@ -19,6 +19,7 @@ import {
   TableRow,
 } from "../ui/table";
 import { Person, Secteur } from "@prisma/client";
+import AddMemberForm from "./addMemberForm";
 
 type MembersListProps = {
   members: any;
@@ -34,8 +35,7 @@ const MembersList = ({ members }: MembersListProps) => {
             {members.length}
             {")"}
           </CardTitle>
-          {/*           <AddSecteurForm />
-           */}{" "}
+          <AddMemberForm />
         </div>
         <CardDescription className="text-yellow-400">
           {
@@ -43,54 +43,54 @@ const MembersList = ({ members }: MembersListProps) => {
           }
         </CardDescription>
       </CardHeader>
-      <CardContent>
-        <>
-          <div className="grid w-full items-center gap-4">
-            <div className="flex flex-col space-y-1.5">
-              <Table>
-                {/*                   <TableCaption>A list of your recent invoices.</TableCaption>
-                 */}{" "}
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className=" text-teal-200">Secteur</TableHead>
-                    <TableHead className=" text-teal-200">
-                      {"Référent"}
-                    </TableHead>
+      {/*       <CardContent>
+       */}{" "}
+      <>
+        <div className="grid w-full items-center gap-4">
+          <div className="flex flex-col space-y-1.5">
+            <Table>
+              {/*                   <TableCaption>A list of your recent invoices.</TableCaption>
+               */}{" "}
+              <TableHeader>
+                <TableRow>
+                  <TableHead className=" text-teal-200">Membre</TableHead>
+                  <TableHead className=" text-teal-200">{"Référent"}</TableHead>
 
-                    <TableHead className="text-right text-teal-200">
-                      Actions
-                    </TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {members.map((member: Person) => (
-                    <TableRow
-                      key={member.id}
-                      onClick={() => console.log("ici:")}
-                    >
-                      <TableCell className="font-medium">
-                        {member.firstname}
-                      </TableCell>
-                      <TableCell>{member.lastname}</TableCell>
-                      <TableCell className="flex justify-end items-center gap-4 ">
-                        {/*                         <DeleteSecteurForm secteur={secteur} />
+                  <TableHead className="text-right text-teal-200">
+                    Actions
+                  </TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {members.map((member: Person) => (
+                  <TableRow key={member.id} onClick={() => console.log("ici:")}>
+                    <TableCell className="font-medium">
+                      {member.firstname} <strong>{member.lastname}</strong>
+                    </TableCell>
+                    <TableCell>
+                      <p>{member.mobile}</p>
+                      <p>{member.email}</p>
+                    </TableCell>
+                    <TableCell className="flex justify-end items-center gap-4 ">
+                      {/*                         <DeleteSecteurForm secteur={secteur} />
 
                         <UpdateSecteurForm secteur={secteur} /> */}
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-                {/*                 <TableFooter>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+              {/*                 <TableFooter>
                   <TableRow>
                     <TableCell colSpan={3}>Total</TableCell>
                     <TableCell className="text-right">157</TableCell>
-                  </TableRow>
+                  </TableRow> 
                 </TableFooter> */}
-              </Table>
-            </div>
+            </Table>
           </div>
-        </>
-      </CardContent>
+        </div>
+      </>
+      {/*       </CardContent>
+       */}{" "}
     </Card>
   );
 };

@@ -18,11 +18,11 @@ import {
   MdDeleteOutline,
   MdEdit,
 } from "react-icons/md";
-import { Gi } from "@prisma/client";
+import { Meeting } from "@prisma/client";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { giFormSchema } from "@/lib/schema";
+import { meetingFormSchema } from "@/lib/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
@@ -41,34 +41,25 @@ import {
   SelectValue,
 } from "../ui/select";
 import { toast } from "sonner";
-import { deleteGi } from "@/lib/gis";
+import { format } from "date-fns";
+import { deleteMeeting } from "@/lib/meetings";
 
-const refLis = [
-  { id: 1, name: "Roston" },
-  { id: 2, name: "Djedou" },
-  { id: 3, name: "Donny" },
-  { id: 4, name: "Jason" },
-  { id: 5, name: "Loïc" },
-];
-
-type DeleteGiFormProps = {
-  gi: Gi;
+type DeleteMeetingProps = {
+  meeting: Meeting;
 };
 
-const DeleteGiForm = ({ gi }: DeleteGiFormProps) => {
+const DeleteMeetingForm = ({ meeting }: DeleteMeetingProps) => {
   const [open, setOpen] = useState(false);
-  const form = useForm<z.infer<typeof giFormSchema>>({
-    resolver: zodResolver(giFormSchema),
+  const form = useForm<z.infer<typeof meetingFormSchema>>({
+    resolver: zodResolver(meetingFormSchema),
     defaultValues: {
-      name: gi.name,
-      id: gi.id.toString(),
+      date: meeting.date.toString(),
+      id: meeting.id.toString(),
     },
   });
 
-  const procesForm = async (values: z.infer<typeof giFormSchema>) => {
-    //console.log("Values::", values);
-
-    const res = await deleteGi(values);
+  const procesForm = async () => {
+    const res = await deleteMeeting(meeting.id);
 
     if (!res) {
       console.log("Une erreur est sub...");
@@ -79,7 +70,7 @@ const DeleteGiForm = ({ gi }: DeleteGiFormProps) => {
       return;
     }
 
-    toast.success("Le groupe d'impact a été supprimé avec succes.", {
+    toast.success("Le rapport du groupe d'impact a été supprimé avec succes.", {
       description: new Date().toISOString().split("T")[0],
     });
     setOpen(false);
@@ -99,18 +90,25 @@ const DeleteGiForm = ({ gi }: DeleteGiFormProps) => {
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px] bg-[#1b4c48] text-white">
           <DialogHeader>
-            <DialogTitle>{"Supprimer un groupe d'impact"}</DialogTitle>
+            <DialogTitle>{"Supprimer un rapport"}</DialogTitle>
           </DialogHeader>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(procesForm)}>
               <div className="grid gap-4 py-4">
                 <Label className="text-center">
-                  {`Etes-vous sûr de vouloir supprimer le groupe d'impact `}{" "}
-                  <strong className="text-yellow-400">{gi.name}</strong> {`?`}
+                  {`Etes-vous sûr de vouloir supprimer le rapport du `}{" "}
+                  <strong className="text-yellow-400">
+                    {format(new Date(meeting.date), "dd/MM/yyyy")}
+                  </strong>{" "}
+                  {`?`}
                 </Label>
               </div>
               <DialogFooter className="md:flex md:justify-between md:items-center">
-                <Button className="max-md:mt-4" type="submit">
+                <Button
+                  className="max-md:mt-4"
+                  type="button"
+                  onClick={procesForm}
+                >
                   Confirmer
                 </Button>
                 <DialogClose asChild>
@@ -131,4 +129,4 @@ const DeleteGiForm = ({ gi }: DeleteGiFormProps) => {
   );
 };
 
-export default DeleteGiForm;
+export default DeleteMeetingForm;

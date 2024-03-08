@@ -27,7 +27,7 @@ const navList = [
   {
     id: 3,
     name: "Réunions",
-    href: "/reports",
+    href: "/meetings",
     icon: <MdEditDocument size={40} />,
     color: "text-blue-400",
   },

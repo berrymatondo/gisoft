@@ -27,6 +27,7 @@ model Gi {
   id Int @id @default(autoincrement())
   name String @unique
   persons Person[] 
+  meetings Meeting[] 
 
   
   secteurId Int?
@@ -39,11 +40,27 @@ model Gi {
 model Person {
   id Int @id @default(autoincrement())
   firstname String
-  lastname String
-  email String
-  mobile String
-  isPilote Boolean
+  lastname String?
+  email String?
+  mobile String?
+  isPilote Boolean? @default(false)
   secteurs Secteur[]
+  
+  giId Int?
+  gi Gi? @relation(fields: [giId], references: [id]) 
+
+  createAt DateTime? @default(now())
+  updatedAt DateTime?  @updatedAt
+}
+model Meeting {
+  id Int @id @default(autoincrement())
+  date DateTime @default(now())
+  nCon Int @default(0)
+  nPar Int @default(0)
+  nStar Int @default(0)
+  nIcc Int @default(0)
+  nNIcc Int @default(0)
+  nNew Int @default(0)
   
   giId Int?
   gi Gi? @relation(fields: [giId], references: [id]) 

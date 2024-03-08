@@ -45,54 +45,54 @@ const SecteursList = ({ secteurs }: SecteursListProps) => {
           }
         </CardDescription>
       </CardHeader>
-      <CardContent>
-        <>
-          <div className="grid w-full items-center gap-4">
-            <div className="flex flex-col space-y-1.5">
-              <Table>
-                {/*                   <TableCaption>A list of your recent invoices.</TableCaption>
-                 */}{" "}
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className=" text-teal-200">Secteur</TableHead>
-                    <TableHead className=" text-teal-200">
-                      {"Référent"}
-                    </TableHead>
+      {/*       <CardContent>
+       */}{" "}
+      <>
+        <div className="grid w-full items-center gap-4">
+          <div className="flex flex-col space-y-1.5">
+            <Table>
+              {/*                   <TableCaption>A list of your recent invoices.</TableCaption>
+               */}{" "}
+              <TableHeader>
+                <TableRow>
+                  <TableHead className=" text-teal-200">Secteur</TableHead>
+                  <TableHead className=" text-teal-200">{"Référent"}</TableHead>
 
-                    <TableHead className="text-right text-teal-200">
-                      Actions
-                    </TableHead>
+                  <TableHead className="text-right text-teal-200">
+                    Actions
+                  </TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {secteurs.map((secteur: Secteur) => (
+                  <TableRow
+                    key={secteur.id}
+                    onClick={() => console.log("ici:")}
+                  >
+                    <TableCell className="font-medium">
+                      {secteur.name}
+                    </TableCell>
+                    <TableCell>{secteur.name}</TableCell>
+                    <TableCell className="flex justify-end items-center gap-4 ">
+                      <DeleteSecteurForm secteur={secteur} />
+
+                      <UpdateSecteurForm secteur={secteur} />
+                    </TableCell>
                   </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {secteurs.map((secteur: Secteur) => (
-                    <TableRow
-                      key={secteur.id}
-                      onClick={() => console.log("ici:")}
-                    >
-                      <TableCell className="font-medium">
-                        {secteur.name}
-                      </TableCell>
-                      <TableCell>{secteur.name}</TableCell>
-                      <TableCell className="flex justify-end items-center gap-4 ">
-                        <DeleteSecteurForm secteur={secteur} />
-
-                        <UpdateSecteurForm secteur={secteur} />
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-                {/*                 <TableFooter>
+                ))}
+              </TableBody>
+              {/*                 <TableFooter>
                   <TableRow>
                     <TableCell colSpan={3}>Total</TableCell>
                     <TableCell className="text-right">157</TableCell>
                   </TableRow>
                 </TableFooter> */}
-              </Table>
-            </div>
+            </Table>
           </div>
-        </>
-      </CardContent>
+        </div>
+      </>
+      {/*       </CardContent>
+       */}{" "}
     </Card>
   );
 };

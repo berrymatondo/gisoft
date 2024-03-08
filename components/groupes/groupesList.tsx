@@ -55,37 +55,39 @@ const GroupesList = ({ gis, secteurs }: GroupesListProps) => {
           }
         </CardDescription>
       </CardHeader>
-      <CardContent>
-        <>
-          <div className="grid w-full items-center gap-4">
-            <div className="flex flex-col space-y-1.5">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className="w-[100px] text-teal-200 ">
-                      Groupe
-                    </TableHead>
-                    <TableHead className=" text-teal-200 max-md:hidden">
-                      Secteur
-                    </TableHead>
-
-                    <TableHead className=" text-teal-200 ">Pilote</TableHead>
-                    <TableHead className=" text-teal-200 ">Effectif</TableHead>
-                    <TableHead className="text-right text-teal-200">
-                      Actions
-                    </TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {gis.map((gi: any) => (
-                    <GiRow key={gi.id} gi={gi} secteurs={secteurs} />
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
+      {/*       <CardContent>
+       */}{" "}
+      <>
+        <div className="grid w-full items-center gap-4">
+          <div className="flex flex-col space-y-1.5">
+            <Table>
+              <TableHeader className="px-0">
+                <TableRow>
+                  <TableHead className=" text-teal-200 ">
+                    {"Grp d'Impact"}
+                  </TableHead>
+                  <TableHead className=" text-teal-200 max-md:hidden">
+                    Pilote
+                  </TableHead>
+                  {/*                   <TableHead className=" text-teal-200 ">Pilote</TableHead>
+                   */}{" "}
+                  <TableHead className=" text-teal-200 ">Effectif</TableHead>
+                  <TableHead className="text-right text-teal-200">
+                    Actions
+                  </TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {gis.map((gi: any) => (
+                  <GiRow key={gi.id} gi={gi} secteurs={secteurs} />
+                ))}
+              </TableBody>
+            </Table>
           </div>
-        </>
-      </CardContent>
+        </div>
+      </>
+      {/*       </CardContent>
+       */}{" "}
     </Card>
   );
 };

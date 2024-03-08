@@ -59,7 +59,7 @@ const AddGroupForm = () => {
   }, []);
 
   const procesForm = async (values: z.infer<typeof giFormSchema>) => {
-    console.log("Value:", values);
+    //console.log("Value:", values);
 
     const res = await addGiAction(values);
 

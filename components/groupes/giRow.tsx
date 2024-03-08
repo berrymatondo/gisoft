@@ -19,9 +19,9 @@ const GiRow = ({ gi, secteurs }: GiRowProps) => {
         <p>{gi.name}</p>
         <p className="md:hidden text-xs font-thin">{gi?.secteur?.name}</p>
       </TableCell>
-      <TableCell className="max-md:hidden">{gi?.secteur?.name}</TableCell>
-
-      <TableCell>{gi.name}</TableCell>
+      <TableCell className="max-md:hidden">{gi?.name}</TableCell>
+      {/*       <TableCell>{gi.name}</TableCell>
+       */}{" "}
       <TableCell className="">{gi?.id}</TableCell>
       <TableCell className="flex justify-end items-center gap-4 ">
         {/*         <Button onClick={() => router.push(`/gis/${gi.id}`)}>Consulter</Button>

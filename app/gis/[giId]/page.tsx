@@ -50,7 +50,7 @@ type GiProps = {
 
 const GiPage = ({ params }: GiProps) => {
   //console.log("DANS update:", secteurs);
-  console.log("{params.giId}: ", params.giId);
+  //console.log("{params.giId}: ", params.giId);
 
   const [open, setOpen] = useState(true);
   const [foundGi, setFoundGi] = useState<any>();
@@ -67,7 +67,7 @@ const GiPage = ({ params }: GiProps) => {
       setFoundGi(data);
 
       if (data && form) {
-        console.log("OK----------------------");
+        //console.log("OK----------------------");
         form.setValue("id", data?.id.toString());
         form.setValue("name", data?.name);
         form.setValue("secteurId", data?.secteurId?.toString());
@@ -79,12 +79,12 @@ const GiPage = ({ params }: GiProps) => {
       const data = await getSecteurs();
       // const data = res.json();
 
-      console.log("fetchSecteurs: ", data);
+      //console.log("fetchSecteurs: ", data);
 
       setSecteurs(data);
     };
     fetchSecteurs();
-  }, []);
+  }, [params.giId]);
 
   const form = useForm<z.infer<typeof giFormSchema>>({
     resolver: zodResolver(giFormSchema),
@@ -107,7 +107,7 @@ const GiPage = ({ params }: GiProps) => {
     }
 
     if (res!.error) {
-      console.log(res!.error);
+      //console.log(res!.error);
       return;
     }
 

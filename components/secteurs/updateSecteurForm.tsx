@@ -61,7 +61,7 @@ const UpdateSecteurForm = ({ secteur }: EditSecteurProps) => {
   });
 
   const procesForm = async (values: z.infer<typeof secteurFormSchema>) => {
-    console.log("Values::", values);
+    //console.log("Values::", values);
 
     const res = await updateSecteur(values);
 
@@ -77,7 +77,7 @@ const UpdateSecteurForm = ({ secteur }: EditSecteurProps) => {
     toast.success("Secteur modifié avec succes.", {
       description: new Date().toISOString().split("T")[0],
     });
-    console.log("RES:", res!.data);
+    //console.log("RES:", res!.data);
     setOpen(false);
   };
 
