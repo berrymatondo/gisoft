@@ -38,6 +38,8 @@ import { meetingFormSchema } from "@/lib/schema";
 import { addMeeting } from "@/app/_actionsMeeting";
 import { Gi } from "@prisma/client";
 import { getGis } from "@/lib/gis";
+import { Checkbox } from "../ui/checkbox";
+import { Textarea } from "../ui/textarea";
 
 const AddMeetingForm = () => {
   const [open, setOpen] = useState(false);
@@ -53,6 +55,8 @@ const AddMeetingForm = () => {
       nNew: "0",
       nStar: "0",
       giId: "0",
+      onLine: false,
+      notes: "",
       /* mobile: "", */
       /* isPilote: false, */
     },
@@ -71,7 +75,7 @@ const AddMeetingForm = () => {
   }, []);
 
   const procesForm = async (values: z.infer<typeof meetingFormSchema>) => {
-    //console.log("Values XXX:", values);
+    //  console.log("Values XXX:", values);
 
     //console.log("Avant");
 
@@ -309,6 +313,54 @@ const AddMeetingForm = () => {
                                 {...field}
                                 // placeholder="Entrer l'adresse mail"
                                 type="number"
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        );
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <FormField
+                      control={form.control}
+                      name="onLine"
+                      render={({ field }) => {
+                        return (
+                          <FormItem className="w-full">
+                            <FormControl>
+                              <Checkbox
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                              />
+                            </FormControl>
+                            <Label className="ml-2" htmlFor="isIcc">
+                              {"La réunion était en présentiel ?"}
+                              <span className="text-yellow-400 pl-2">
+                                {form.watch("onLine") ? "OUI" : "NON"}
+                              </span>
+                            </Label>
+
+                            <FormMessage />
+                          </FormItem>
+                        );
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <FormField
+                      control={form.control}
+                      name="notes"
+                      render={({ field }) => {
+                        return (
+                          <FormItem>
+                            <FormLabel>{"Notes"}</FormLabel>
+                            <FormControl>
+                              <Textarea
+                                {...field}
+                                className="text-black"
+                                rows={4}
+                                placeholder="Des notes sur la réunion ..."
                               />
                             </FormControl>
                             <FormMessage />

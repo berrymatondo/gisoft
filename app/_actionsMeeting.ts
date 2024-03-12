@@ -41,6 +41,8 @@ export const addMeeting = async (data: Inputs) => {
         nNew: +data.nNew,
         nStar: +data.nStar,
         giId: data.giId ? +data.giId : null,
+        onLine: !data.onLine,
+        notes: data.notes,
         /* isPilote: data.isPilote,
         giId: data.giId, */
       },
@@ -81,6 +83,8 @@ export const updateMeeting = async (data: Inputs) => {
         nNew: +data.nNew,
         nStar: +data.nStar,
         giId: data.giId ? +data.giId : null,
+        onLine: !data.onLine,
+        notes: data.notes,
         /* isPilote: data.isPilote,
         giId: data.giId, */
       },

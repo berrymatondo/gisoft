@@ -8,20 +8,45 @@ export const secteurFormSchema = z.object({
 
 export const giFormSchema = z.object({
   id: z.string().optional(),
-  name: z.string(),
+  name: z.string().min(1, {
+    message: "Le nom du groupe d'impact est obligatoire",
+  }),
   piloteId: z.string().optional(),
   secteurId: z.string().optional(),
 });
 
-export const personFormSchema = z.object({
-  id: z.string().optional(),
-  firstname: z.string().min(1),
-  lastname: z.string().optional(),
-  email: z.string().email().optional(),
-  mobile: z.string().optional(),
-  /*isPilote: z.boolean().optional(),
+export const personFormSchema = z
+  .object({
+    id: z.string().optional(),
+    firstname: z.string().min(1, {
+      message: "Le prénom est obligatoire",
+    }),
+    lastname: z.string().min(1, {
+      message: "Le nom est obligatoire",
+    }),
+
+    mobile: z.string().min(1, {
+      message: "Le téléphone est obligatoire",
+    }),
+    city: z.string().min(1, {
+      message: "La ville est obligatoire",
+    }),
+    isIcc: z.boolean().default(false),
+    isStar: z.boolean().default(false),
+    isPilote: z.boolean().default(false),
+    giId: z.string().optional(),
+    /*isPilote: z.boolean().optional(),
   giId: z.number().optional(), */
-});
+  })
+  .refine(
+    (data) => {
+      return data.giId != "0";
+    },
+    {
+      message: "Le groupe d'impact est obligatoire",
+      path: ["giId"],
+    }
+  );
 
 export const meetingFormSchema = z
   .object({
@@ -34,6 +59,8 @@ export const meetingFormSchema = z
     nNew: z.string(),
     nStar: z.string(),
     giId: z.string().optional(),
+    onLine: z.boolean().default(true),
+    notes: z.string().optional(),
     /*isPilote: z.boolean().optional(),
   giId: z.number().optional(), */
   })

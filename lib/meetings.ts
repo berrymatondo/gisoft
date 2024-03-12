@@ -132,6 +132,9 @@ export const getMeeting = async (id: string) => {
       where: {
         id: +id,
       },
+      include: {
+        gi: true,
+      },
     });
     return meeting;
   } catch (error) {

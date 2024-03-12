@@ -42,6 +42,8 @@ import { getMeeting } from "@/lib/meetings";
 import { format } from "date-fns";
 import { updateMeeting } from "@/app/_actionsMeeting";
 import { useRouter } from "next/navigation";
+import { Textarea } from "../ui/textarea";
+import { Checkbox } from "../ui/checkbox";
 //import { unstable_noStore as noStore } from "next/cache";
 
 type UpdateMeetingFormProps = {
@@ -77,6 +79,8 @@ const UpdateMeetingForm = ({ inMeeting }: UpdateMeetingFormProps) => {
       form.setValue("nStar", data?.nStar.toString());
       form.setValue("nNew", data?.nNew.toString());
       form.setValue("giId", data?.giId.toString());
+      form.setValue("onLine", !data?.onLine);
+      form.setValue("notes", data.notes ? data.notes.toString() : "");
 
       //console.log("actions FORM AFTER :", form.getValues());
 
@@ -97,6 +101,8 @@ const UpdateMeetingForm = ({ inMeeting }: UpdateMeetingFormProps) => {
       nNew: meeting.nNew.toString(),
       nStar: meeting.nStar.toString(),
       giId: meeting.giId.toString(),
+      onLine: !meeting.onLine,
+      notes: meeting.notes ? meeting.notes.toString() : "",
       //       name: gi.name,
       //secteurId: gi.secteurId?.toString(),
     },
@@ -115,7 +121,7 @@ const UpdateMeetingForm = ({ inMeeting }: UpdateMeetingFormProps) => {
   }, [form, meeting.id]);
 
   const procesForm = async (values: z.infer<typeof meetingFormSchema>) => {
-    //console.log("Values xxx:", values);
+    // console.log("Values xxrx:", values);
 
     const res = await updateMeeting(values);
 
@@ -427,6 +433,55 @@ const UpdateMeetingForm = ({ inMeeting }: UpdateMeetingFormProps) => {
                                 {...field}
                                 // placeholder="Entrer l'adresse mail"
                                 type="number"
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        );
+                      }}
+                    />
+                  </div>
+
+                  <div>
+                    <FormField
+                      control={form.control}
+                      name="onLine"
+                      render={({ field }) => {
+                        return (
+                          <FormItem className="w-full">
+                            <FormControl>
+                              <Checkbox
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                              />
+                            </FormControl>
+                            <Label className="ml-2" htmlFor="isIcc">
+                              {"La réunion était en présentiel ?"}
+                              <span className="text-yellow-400 pl-2">
+                                {form.watch("onLine") ? "OUI" : "NON"}
+                              </span>
+                            </Label>
+
+                            <FormMessage />
+                          </FormItem>
+                        );
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <FormField
+                      control={form.control}
+                      name="notes"
+                      render={({ field }) => {
+                        return (
+                          <FormItem>
+                            <FormLabel>{"Notes"}</FormLabel>
+                            <FormControl>
+                              <Textarea
+                                {...field}
+                                className="text-black"
+                                rows={4}
+                                placeholder="Des notes sur la réunion ..."
                               />
                             </FormControl>
                             <FormMessage />

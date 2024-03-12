@@ -36,14 +36,19 @@ import { toast } from "sonner";
 import { personFormSchema } from "@/lib/schema";
 import { addPerson } from "@/app/_actionsMember";
 
-const AddMemberForm = () => {
-  const [open, setOpen] = useState(false);
+type AddMemberFormProps = {
+  openDialog: boolean;
+  giId?: number;
+};
+
+const AddMemberForm = ({ openDialog, giId }: AddMemberFormProps) => {
+  const [open, setOpen] = useState(openDialog);
   const form = useForm<z.infer<typeof personFormSchema>>({
     resolver: zodResolver(personFormSchema),
     defaultValues: {
       firstname: "",
       lastname: "",
-      email: "",
+      // email: "",
       /* mobile: "", */
       /* isPilote: false, */
     },

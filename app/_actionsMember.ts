@@ -14,10 +14,14 @@ export const addPerson = async (data: Inputs) => {
       data: {
         firstname: data.firstname ? data.firstname : " ",
         lastname: data.lastname ? data.lastname : " ",
-        email: data.email ? data.email : " ",
+        city: data.city ? data.city : " ",
         mobile: data.mobile ? data.mobile : " ",
+        isIcc: data.isIcc,
+        isStar: data.isStar,
+        isPilote: data.isPilote,
+        giId: data.giId ? +data.giId : 0,
         /* isPilote: data.isPilote,
-        giId: data.giId, */
+         */
       },
     });
 
@@ -44,12 +48,19 @@ export const updatePerson = async (data: Inputs) => {
 
   try {
     if (resut.success && data.id) {
-      const updateUser = await prisma.person.update({
+      const updatePerson = await prisma.person.update({
         where: {
           id: +data.id,
         },
         data: {
           firstname: data.firstname ? data.firstname : " ",
+          lastname: data.lastname ? data.lastname : " ",
+          mobile: data.mobile ? data.mobile : " ",
+          city: data.city ? data.city : " ",
+          isIcc: data.isIcc ? data.isIcc : false,
+          isStar: data.isStar ? data.isStar : false,
+          isPilote: data.isPilote ? data.isPilote : false,
+          giId: data.giId ? +data.giId : 0,
           /*           lastname: data.lastname ? data.lastname : " ",
           email: data.email ? data.email : " ",
           mobile: data.mobile ? data.mobile : " ",
@@ -58,11 +69,11 @@ export const updatePerson = async (data: Inputs) => {
         },
       });
 
-      revalidatePath("/gis");
+      revalidatePath("/members");
 
       return {
         success: true,
-        data: updateUser,
+        data: updatePerson,
       };
     }
   } catch (error) {
@@ -73,30 +84,44 @@ export const updatePerson = async (data: Inputs) => {
   }
 };
 
-export const deletePerson = async (data: Inputs) => {
-  const resut = personFormSchema.safeParse(data);
+export const deletePerson = async (id: number) => {
+  //const resut = personFormSchema.safeParse(data);
 
   //  console.log("UPDATE:", data);
 
   try {
-    if (resut.success && data.id) {
-      const updateUser = await prisma.person.delete({
-        where: {
-          id: +data.id,
-        },
-      });
+    //  if (resut.success && data.id) {
+    const updateUser = await prisma.person.delete({
+      where: {
+        id: id,
+      },
+    });
 
-      revalidatePath("/members");
+    revalidatePath("/members");
 
-      return {
-        success: true,
-        // data: updateUser,
-      };
-    }
+    return {
+      success: true,
+      // data: updateUser,
+    };
+    // }
   } catch (error) {
     return {
       success: false,
       error: error,
     };
+  }
+};
+
+// GET A SPECIFIC PERSON
+export const getPerson = async (id: string) => {
+  try {
+    const person = await prisma.person.findUnique({
+      where: {
+        id: +id,
+      },
+    });
+    return person;
+  } catch (error) {
+    return { error };
   }
 };

@@ -5,6 +5,7 @@ import { MdPeopleOutline } from "react-icons/md";
 import { getGis } from "@/lib/gis";
 import { getGiMeetings, getMeeting, getMeetings } from "@/lib/meetings";
 import { FaPeopleGroup } from "react-icons/fa6";
+import { useRouter } from "next/navigation";
 
 type MeetingsDashProps = {
   reg: any;
@@ -12,6 +13,7 @@ type MeetingsDashProps = {
 
 const MeetingsDash = ({ reg }: MeetingsDashProps) => {
   const [totalMeetings, setTotalMeetings] = useState(0);
+  const router = useRouter();
   useEffect(() => {
     //console.log("REG:", reg);
 
@@ -31,7 +33,10 @@ const MeetingsDash = ({ reg }: MeetingsDashProps) => {
   }, [reg]);
 
   return (
-    <Card className="px-2 flex items-center justify-between bg-green-100 bg-opacity-5 text-white max-md:w-[100px] md:w-[250px] border-none">
+    <Card
+      onClick={() => router.push("/meetings")}
+      className="hover:cursor-pointer hover:bg-green-800 px-2 flex items-center justify-between bg-green-100 bg-opacity-5 text-white max-md:w-[100px] md:w-[250px] border-none"
+    >
       <CardHeader>
         <CardTitle className="md:text-5xl max-md:flex max-md:gap-4">
           {totalMeetings}

@@ -42,7 +42,10 @@ model Person {
   firstname String
   lastname String?
   email String?
+  city String?
   mobile String?
+  isIcc Boolean? @default(false)
+  isStar Boolean? @default(false)
   isPilote Boolean? @default(false)
   secteurs Secteur[]
   
@@ -61,6 +64,8 @@ model Meeting {
   nIcc Int @default(0)
   nNIcc Int @default(0)
   nNew Int @default(0)
+  onLine Boolean @default(true)
+  notes String?
   
   giId Int?
   gi Gi? @relation(fields: [giId], references: [id]) 

@@ -4,6 +4,7 @@ import { Card, CardDescription, CardHeader, CardTitle } from "../ui/card";
 import { MdPeopleOutline } from "react-icons/md";
 import { getGis } from "@/lib/gis";
 import { getGiMembers, getMembers } from "@/lib/members";
+import { useRouter } from "next/navigation";
 
 type MembersDashProps = {
   reg: any;
@@ -11,6 +12,8 @@ type MembersDashProps = {
 
 const MembersDash = ({ reg }: MembersDashProps) => {
   const [totalMembers, setTotalMembers] = useState(0);
+  const router = useRouter();
+
   useEffect(() => {
     if (reg != "0" && reg) {
       const fetchGiMembers = async () => {
@@ -28,7 +31,10 @@ const MembersDash = ({ reg }: MembersDashProps) => {
   }, [reg]);
 
   return (
-    <Card className="px-2 flex items-center justify-between bg-green-100 bg-opacity-5 text-white max-md:w-[100px] md:w-[250px] border-none">
+    <Card
+      onClick={() => router.push("/members")}
+      className="hover:cursor-pointer hover:bg-green-800 px-2 flex items-center justify-between bg-green-100 bg-opacity-5 text-white max-md:w-[100px] md:w-[250px] border-none"
+    >
       <CardHeader>
         <CardTitle className="md:text-5xl max-md:flex max-md:gap-4">
           {totalMembers}{" "}

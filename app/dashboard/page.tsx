@@ -20,6 +20,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { getGis } from "@/lib/gis";
+import { getMembers } from "@/lib/members";
 import { prisma } from "@/lib/prisma";
 import { format } from "date-fns";
 import React from "react";
@@ -40,6 +41,7 @@ const DashboardPage = async () => {
   }));
 
   const gis = await getGis();
+  const members = await getMembers();
 
   //console.log("Meetings:", meetings);
   //console.log("ms:", ms);
@@ -58,7 +60,7 @@ const DashboardPage = async () => {
 
   return (
     <div className="flex justify-start px-2">
-      <LineCharts meetings={ms} gis={gis} />
+      <LineCharts meetings={ms} members={members} gis={gis} />
     </div>
   );
 };

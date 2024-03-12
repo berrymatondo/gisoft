@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Card, CardDescription, CardHeader, CardTitle } from "../ui/card";
 import { MdHouse, MdPeopleOutline } from "react-icons/md";
 import { getGis } from "@/lib/gis";
+import { useRouter } from "next/navigation";
 
 type GisDashProps = {
   reg: any;
@@ -10,6 +11,7 @@ type GisDashProps = {
 
 const GisDash = ({ reg }: GisDashProps) => {
   const [totalGis, setTotalGis] = useState(0);
+  const router = useRouter();
   useEffect(() => {
     if (reg != "0" && reg) {
       console.log("OK");
@@ -23,7 +25,10 @@ const GisDash = ({ reg }: GisDashProps) => {
   }, [reg]);
 
   return (
-    <Card className="px-2 flex items-center justify-between bg-green-100 bg-opacity-5 text-white max-md:w-[100px] md:w-[250px] border-none">
+    <Card
+      onClick={() => router.push("/gis")}
+      className="hover:cursor-pointer hover:bg-green-800 px-2 flex items-center justify-between bg-green-100 bg-opacity-5 text-white max-md:w-[100px] md:w-[250px] border-none"
+    >
       <CardHeader>
         <CardTitle className="md:text-5xl max-md:flex max-md:gap-4">
           {totalGis}{" "}

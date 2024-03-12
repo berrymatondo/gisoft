@@ -23,7 +23,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import { Gi, Meeting } from "@prisma/client";
+import { Gi, Meeting, Person } from "@prisma/client";
 import { useForm } from "react-hook-form";
 import {
   Card,
@@ -37,6 +37,7 @@ import {
   MdHouse,
   MdOutlineMapsHomeWork,
   MdPeopleOutline,
+  MdPhone,
 } from "react-icons/md";
 import MembersDash from "../dashboard/membersDash";
 import MeetingsDash from "../dashboard/meetingsDash";
@@ -45,16 +46,18 @@ import GisDash from "../dashboard/gisDash";
 
 type LineChartsProps = {
   meetings: any;
+  members: any;
   gis: any;
 };
 
-const LineCharts = ({ meetings, gis }: LineChartsProps) => {
+const LineCharts = ({ meetings, members, gis }: LineChartsProps) => {
   const [gisState, setGisState] = useState<any>();
 
   const form = useForm();
 
   const reg = form.watch("giId");
   let newMeets = meetings;
+  let pilotes = [];
 
   console.log("INIT REG: ", reg);
   //console.log("newMeets avant:", newMeets);
@@ -62,6 +65,9 @@ const LineCharts = ({ meetings, gis }: LineChartsProps) => {
     //console.log("REG;", reg);
     //console.log("meetingggggg;", meetings);
     newMeets = meetings.filter((meet: Meeting) => meet.giId == reg);
+    pilotes = members.filter(
+      (meet: Person) => meet.giId == reg && meet.isPilote == true
+    );
     //console.log("newMeets:", newMeets);
     //  console.log("meetings after:", meetings);
   }
@@ -137,11 +143,42 @@ const LineCharts = ({ meetings, gis }: LineChartsProps) => {
           </form>
         </Form>
       </div>
-      <div className=" w-full mt-10 flex justify-between items-center ">
+      {reg != "0" && reg && (
+        <div className="md:hidden border rounded-lg px-4 py-2">
+          <h1 className="text-lg font-bold text-yellow-400">Pilote(s)</h1>
+
+          {pilotes.map((pil: Person) => (
+            <div className="text-white flex items-center">
+              {pil.firstname} {pil.lastname}{" "}
+              <span className="flex items-center pl-2 text-yellow-500">
+                <MdPhone />
+                {pil.mobile}{" "}
+              </span>
+            </div>
+          ))}
+        </div>
+      )}
+      <div className=" w-full md:mt-10 flex justify-between items-center ">
+        {reg != "0" && reg && (
+          <div className="max-md:hidden border rounded-lg px-4 py-2">
+            <h1 className="text-lg font-bold text-yellow-400">Pilote(s)</h1>
+
+            {pilotes.map((pil: Person) => (
+              <div className="text-white flex items-center">
+                {pil.firstname} {pil.lastname}{" "}
+                <span className="flex items-center pl-2 text-yellow-500">
+                  <MdPhone />
+                  {pil.mobile}{" "}
+                </span>
+              </div>
+            ))}
+          </div>
+        )}
         <MembersDash reg={reg} />
         {(reg == "0" || !reg) && <GisDash reg={reg} />}
         {(reg == "0" || !reg) && <SecteursDash reg={reg} />}
         {reg != "0" && reg && <MeetingsDash reg={reg} />}
+
         {/*         <Card className="px-2 flex items-center justify-between bg-green-100 bg-opacity-5 text-white w-[250px] border-none">
           <CardHeader>
             <CardTitle className="text-5xl">36</CardTitle>
