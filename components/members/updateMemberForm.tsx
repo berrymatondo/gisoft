@@ -61,6 +61,24 @@ const UpdateMemberForm = ({ inMember }: UpdateMemberFormProps) => {
 
   //console.log("OPENNNN", open);
 
+  const form = useForm<z.infer<typeof personFormSchema>>({
+    resolver: zodResolver(personFormSchema),
+    defaultValues: {
+      id: member.id.toString(),
+      // date: format(new Date(meeting.date), "yyyy-MM-dd"),
+      firstname: member.firstname.toString(),
+      lastname: member.lastname.toString(),
+      mobile: member.mobile.toString(),
+      city: member.city ? member.city.toString() : "",
+      isIcc: member.isIcc,
+      isStar: member.isStar,
+      isPilote: member.isPilote,
+      giId: member.giId ? member.giId.toString() : "0",
+      //       name: gi.name,
+      //secteurId: gi.secteurId?.toString(),
+    },
+  });
+
   useEffect(() => {
     const fetchGi = async () => {
       // console.log("READ:", meeting.id.toString());
@@ -86,25 +104,7 @@ const UpdateMemberForm = ({ inMember }: UpdateMemberFormProps) => {
       setFoundMember(data);
     };
     fetchGi();
-  }, [open, member.id]);
-
-  const form = useForm<z.infer<typeof personFormSchema>>({
-    resolver: zodResolver(personFormSchema),
-    defaultValues: {
-      id: member.id.toString(),
-      // date: format(new Date(meeting.date), "yyyy-MM-dd"),
-      firstname: member.firstname.toString(),
-      lastname: member.lastname.toString(),
-      mobile: member.mobile.toString(),
-      city: member.city ? member.city.toString() : "",
-      isIcc: member.isIcc,
-      isStar: member.isStar,
-      isPilote: member.isPilote,
-      giId: member.giId ? member.giId.toString() : "0",
-      //       name: gi.name,
-      //secteurId: gi.secteurId?.toString(),
-    },
-  });
+  }, [open, member.id, form]);
 
   const icc = form.watch("isIcc");
 

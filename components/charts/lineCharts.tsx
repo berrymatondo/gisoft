@@ -148,7 +148,7 @@ const LineCharts = ({ meetings, members, gis }: LineChartsProps) => {
           <h1 className="text-lg font-bold text-yellow-400">Pilote(s)</h1>
 
           {pilotes.map((pil: Person) => (
-            <div className="text-white flex items-center">
+            <div key={pil.id} className="text-white flex items-center">
               {pil.firstname} {pil.lastname}{" "}
               <span className="flex items-center pl-2 text-yellow-500">
                 <MdPhone />
@@ -164,7 +164,7 @@ const LineCharts = ({ meetings, members, gis }: LineChartsProps) => {
             <h1 className="text-lg font-bold text-yellow-400">Pilote(s)</h1>
 
             {pilotes.map((pil: Person) => (
-              <div className="text-white flex items-center">
+              <div key={pil.id} className="text-white flex items-center">
                 {pil.firstname} {pil.lastname}{" "}
                 <span className="flex items-center pl-2 text-yellow-500">
                   <MdPhone />

@@ -85,7 +85,7 @@ const RapportMeetingForm = ({ meeting }: DeleteMeetingProps) => {
         meeting.nStar
       }* \n \nBlessings,\nBerry\n`
     );
-  }, []);
+  }, [meeting]);
 
   const copyHandler = () => {
     navigator.clipboard.writeText(val);

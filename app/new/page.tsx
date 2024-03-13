@@ -82,7 +82,7 @@ const NewPublicMember = () => {
       setName(form.getValues("firstname"));
     };
     fetchGi();
-  }, [sel]);
+  }, [sel, form]);
 
   //console.log("sel", sel);
 

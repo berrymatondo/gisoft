@@ -31,7 +31,7 @@ const Rapport = ({ meeting }: RapportProps) => {
     setVal(
       `Bonsoir Pasteur Dominique,\nBonsoir à tous, \n \nRapport *${giDenom}* du *${datum}* \nNbre de connexions: *${meeting.nbrCon}*\nNbre de participants: *${meeting.nbrPar}*\nNbre membres ICC: *${meeting.nbrIcc}* \nNbre non ICC: *${meeting.nbrNIcc}*\nNbre de nouveaux : *${meeting.nbrVis}*\nNbre de stars: *${meeting.nbrStar}* \n \nBlessings,\nBerry\n`
     );
-  }, []);
+  }, [meeting]);
 
   const copyHandler = () => {
     navigator.clipboard.writeText(val);

@@ -61,6 +61,25 @@ const UpdateMeetingForm = ({ inMeeting }: UpdateMeetingFormProps) => {
 
   //console.log("OPENNNN", open);
 
+  const form = useForm<z.infer<typeof meetingFormSchema>>({
+    resolver: zodResolver(meetingFormSchema),
+    defaultValues: {
+      id: meeting.id.toString(),
+      date: format(new Date(meeting.date), "yyyy-MM-dd"),
+      nPar: meeting.nPar.toString(),
+      nCon: meeting.nCon.toString(),
+      nIcc: meeting.nIcc.toString(),
+      nNIcc: meeting.nNIcc.toString(),
+      nNew: meeting.nNew.toString(),
+      nStar: meeting.nStar.toString(),
+      giId: meeting.giId.toString(),
+      onLine: !meeting.onLine,
+      notes: meeting.notes ? meeting.notes.toString() : "",
+      //       name: gi.name,
+      //secteurId: gi.secteurId?.toString(),
+    },
+  });
+
   useEffect(() => {
     const fetchGi = async () => {
       // console.log("READ:", meeting.id.toString());
@@ -87,26 +106,7 @@ const UpdateMeetingForm = ({ inMeeting }: UpdateMeetingFormProps) => {
       setFoundMeeting(data);
     };
     fetchGi();
-  }, [open, meeting.id]);
-
-  const form = useForm<z.infer<typeof meetingFormSchema>>({
-    resolver: zodResolver(meetingFormSchema),
-    defaultValues: {
-      id: meeting.id.toString(),
-      date: format(new Date(meeting.date), "yyyy-MM-dd"),
-      nPar: meeting.nPar.toString(),
-      nCon: meeting.nCon.toString(),
-      nIcc: meeting.nIcc.toString(),
-      nNIcc: meeting.nNIcc.toString(),
-      nNew: meeting.nNew.toString(),
-      nStar: meeting.nStar.toString(),
-      giId: meeting.giId.toString(),
-      onLine: !meeting.onLine,
-      notes: meeting.notes ? meeting.notes.toString() : "",
-      //       name: gi.name,
-      //secteurId: gi.secteurId?.toString(),
-    },
-  });
+  }, [open, meeting.id, form]);
 
   useEffect(() => {
     const fetchGis = async () => {

@@ -177,7 +177,7 @@ const AddMemberForm = ({ openDialog, giId }: AddMemberFormProps) => {
                   }}
                 />
 
-                <FormField
+                {/*                 <FormField
                   control={form.control}
                   name="email"
                   render={({ field }) => {
@@ -195,7 +195,7 @@ const AddMemberForm = ({ openDialog, giId }: AddMemberFormProps) => {
                       </FormItem>
                     );
                   }}
-                />
+                /> */}
               </div>
               <DialogFooter className="md:flex md:justify-between md:items-center  max-md:mt-8">
                 <DialogClose asChild>
