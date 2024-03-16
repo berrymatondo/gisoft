@@ -25,6 +25,8 @@ import { prisma } from "@/lib/prisma";
 import { format } from "date-fns";
 import React from "react";
 
+export const dynamic = "force-dynamic";
+
 const DashboardPage = async () => {
   const meetings = await prisma.meeting.findMany({
     orderBy: {

@@ -31,10 +31,13 @@ import {
   FormMessage,
 } from "../ui/form";
 import { addSecteur } from "@/app/_actionsSecteur";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { personFormSchema } from "@/lib/schema";
 import { addPerson } from "@/app/_actionsMember";
+import { Checkbox } from "../ui/checkbox";
+import { getGis } from "@/lib/gis";
+import { Gi } from "@prisma/client";
 
 type AddMemberFormProps = {
   openDialog: boolean;
@@ -43,16 +46,37 @@ type AddMemberFormProps = {
 
 const AddMemberForm = ({ openDialog, giId }: AddMemberFormProps) => {
   const [open, setOpen] = useState(openDialog);
+  const [gis, setGis] = useState<any>();
+  const [gi, setGi] = useState("");
+  const [name, setName] = useState("");
+  const [recSuccess, setRecSuccess] = useState(false);
+
+  useEffect(() => {
+    const fetchGis = async () => {
+      const data = await getGis();
+
+      setGis(data);
+    };
+    fetchGis();
+  }, []);
+
   const form = useForm<z.infer<typeof personFormSchema>>({
     resolver: zodResolver(personFormSchema),
     defaultValues: {
       firstname: "",
       lastname: "",
-      // email: "",
+      mobile: "",
+      city: "",
+      isIcc: false,
+      isStar: false,
+      giId: "0",
       /* mobile: "", */
       /* isPilote: false, */
     },
   });
+
+  const icc = form.watch("isIcc");
+  const sel = form.watch("giId");
 
   const procesForm = async (values: z.infer<typeof personFormSchema>) => {
     //console.log("Values XXX:", values);
@@ -71,6 +95,7 @@ const AddMemberForm = ({ openDialog, giId }: AddMemberFormProps) => {
     toast.success("Secteur créé avec succes.", {
       description: new Date().toISOString().split("T")[0],
     });
+    form.reset();
     setOpen(false);
   };
 
@@ -91,113 +116,168 @@ const AddMemberForm = ({ openDialog, giId }: AddMemberFormProps) => {
           <Form {...form}>
             <form onSubmit={form.handleSubmit(procesForm)}>
               <div className="grid gap-4 py-4">
+                <div className="flex max-md:flex-col justify-between gap-4 max-md:gap-2">
+                  <FormField
+                    control={form.control}
+                    name="firstname"
+                    render={({ field }) => {
+                      return (
+                        <FormItem className="w-full">
+                          <FormLabel>{"Prénom"}</FormLabel>
+                          <FormControl>
+                            <Input
+                              {...field}
+                              placeholder="Entrer votre prénom"
+                              type="text"
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      );
+                    }}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="lastname"
+                    render={({ field }) => {
+                      return (
+                        <FormItem className="w-full">
+                          <FormLabel>{"Nom"}</FormLabel>
+                          <FormControl>
+                            <Input
+                              {...field}
+                              placeholder="Entrer votre nom"
+                              type="text"
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      );
+                    }}
+                  />
+                </div>
+
+                <div className="flex max-md:flex-col justify-between gap-4  max-md:gap-2">
+                  <FormField
+                    control={form.control}
+                    name="mobile"
+                    render={({ field }) => {
+                      return (
+                        <FormItem className="w-full">
+                          <FormLabel>{"Téléphone"}</FormLabel>
+                          <FormControl>
+                            <Input
+                              {...field}
+                              placeholder="Entrer votre numéro de téléphone"
+                              type="text"
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      );
+                    }}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="city"
+                    render={({ field }) => {
+                      return (
+                        <FormItem className="w-full">
+                          <FormLabel>{"Ville de résidence"}</FormLabel>
+                          <FormControl>
+                            <Input
+                              {...field}
+                              placeholder="Entrer votre ville de résidence"
+                              type="text"
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      );
+                    }}
+                  />
+                </div>
+
+                <div className="flex max-md:flex-col justify-between gap-4">
+                  <FormField
+                    control={form.control}
+                    name="isIcc"
+                    render={({ field }) => {
+                      return (
+                        <FormItem className="w-full">
+                          <FormControl>
+                            <Checkbox
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                          <Label className="ml-2" htmlFor="isIcc">
+                            Etes-vous un membre des églises ICC ?
+                          </Label>
+
+                          <FormMessage />
+                        </FormItem>
+                      );
+                    }}
+                  />
+
+                  {icc && (
+                    <FormField
+                      control={form.control}
+                      name="isStar"
+                      render={({ field }) => {
+                        return (
+                          <FormItem className="w-full">
+                            <FormControl>
+                              <Checkbox
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                              />
+                            </FormControl>
+                            <Label className="ml-2" htmlFor="isStar">
+                              Etes-vous un(e) S.T.A.R ?
+                            </Label>
+
+                            <FormMessage />
+                          </FormItem>
+                        );
+                      }}
+                    />
+                  )}
+                </div>
+
                 <FormField
                   control={form.control}
-                  name="firstname"
+                  name="giId"
                   render={({ field }) => {
                     return (
-                      <FormItem>
-                        <FormLabel>{"Prénom"}</FormLabel>
-                        <FormControl>
-                          <Input
-                            {...field}
-                            placeholder="Entrer le prénom"
-                            type="text"
-                          />
-                        </FormControl>
+                      <FormItem className="w-1/2">
+                        <FormLabel>{"Groupe d'Impact"} </FormLabel>
+                        <Select onValueChange={field.onChange}>
+                          <SelectTrigger id="framework">
+                            <SelectValue placeholder="Selectionner un groupe d'Impact" />
+                          </SelectTrigger>
+                          <SelectContent position="popper">
+                            {gis &&
+                              gis.map((gi: Gi) => (
+                                <SelectItem
+                                  key={gi.id}
+                                  value={gi.id.toString()}
+                                >
+                                  {gi.name}
+                                </SelectItem>
+                              ))}
+                          </SelectContent>
+                        </Select>
+
                         <FormMessage />
                       </FormItem>
                     );
                   }}
                 />
-
-                <FormField
-                  control={form.control}
-                  name="lastname"
-                  render={({ field }) => {
-                    return (
-                      <FormItem>
-                        <FormLabel>{"Nom"}</FormLabel>
-                        <FormControl>
-                          <Input
-                            {...field}
-                            placeholder="Entrer le nom"
-                            type="text"
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    );
-                  }}
-                />
-
-                {/*               <FormField
-                control={form.control}
-                name="referent"
-                render={({ field }) => {
-                  return (
-                    <FormItem>
-                      <FormLabel>Référent du secteur </FormLabel>
-                      <Select onValueChange={field.onChange}>
-                        <SelectTrigger id="framework">
-                          <SelectValue placeholder="Selectionner un référent" />
-                        </SelectTrigger>
-                        <SelectContent position="popper">
-                          {refLis.map((ref) => (
-                            <SelectItem key={ref.id} value={ref.name}>
-                              {ref.name}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-
-                      <FormMessage />
-                    </FormItem>
-                  );
-                }}
-              /> */}
-
-                <FormField
-                  control={form.control}
-                  name="mobile"
-                  render={({ field }) => {
-                    return (
-                      <FormItem>
-                        <FormLabel>{"Téléphone"}</FormLabel>
-                        <FormControl>
-                          <Input
-                            {...field}
-                            placeholder="Entrer le numéro de téléphone"
-                            type="text"
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    );
-                  }}
-                />
-
-                {/*                 <FormField
-                  control={form.control}
-                  name="email"
-                  render={({ field }) => {
-                    return (
-                      <FormItem>
-                        <FormLabel>{"Email"}</FormLabel>
-                        <FormControl>
-                          <Input
-                            {...field}
-                            placeholder="Entrer l'adresse mail"
-                            type="text"
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    );
-                  }}
-                /> */}
               </div>
-              <DialogFooter className="md:flex md:justify-between md:items-center  max-md:mt-8">
+              <div className="flex md:justify-between md:items-center  max-md:flex-col">
                 <DialogClose asChild>
                   <Button
                     type="button"
@@ -210,7 +290,7 @@ const AddMemberForm = ({ openDialog, giId }: AddMemberFormProps) => {
                 <Button className="max-md:mt-4" type="submit">
                   Enregistrer
                 </Button>
-              </DialogFooter>
+              </div>
             </form>
           </Form>
         </DialogContent>
