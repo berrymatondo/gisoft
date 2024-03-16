@@ -28,6 +28,7 @@ export const personFormSchema = z
     mobile: z.string().min(1, {
       message: "Le téléphone est obligatoire",
     }),
+    email: z.string().optional(),
     city: z.string().min(1, {
       message: "La ville est obligatoire",
     }),
