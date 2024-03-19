@@ -337,6 +337,7 @@ const UpdateMemberForm = ({ inMember }: UpdateMemberFormProps) => {
                             {/*                             <SelectItem className="text-red-600" value="00">
                               {"Aucun secteur pour ce GI"}
                             </SelectItem> */}
+                            <SelectItem value="0">Aucun</SelectItem>
                             {gis.map((gi: Gi) => (
                               <SelectItem key={gi.id} value={gi.id.toString()}>
                                 {gi.name}

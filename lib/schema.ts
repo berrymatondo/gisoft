@@ -15,31 +15,28 @@ export const giFormSchema = z.object({
   secteurId: z.string().optional(),
 });
 
-export const personFormSchema = z
-  .object({
-    id: z.string().optional(),
-    firstname: z.string().min(1, {
-      message: "Le prénom est obligatoire",
-    }),
-    lastname: z.string().min(1, {
-      message: "Le nom est obligatoire",
-    }),
+export const personFormSchema = z.object({
+  id: z.string().optional(),
+  firstname: z.string().min(1, {
+    message: "Le prénom est obligatoire",
+  }),
+  lastname: z.string().min(1, {
+    message: "Le nom est obligatoire",
+  }),
 
-    mobile: z.string().min(1, {
-      message: "Le téléphone est obligatoire",
-    }),
-    email: z.string().optional(),
-    city: z.string().min(1, {
-      message: "La ville est obligatoire",
-    }),
-    isIcc: z.boolean().default(false),
-    isStar: z.boolean().default(false),
-    isPilote: z.boolean().default(false),
-    giId: z.string().optional(),
-    /*isPilote: z.boolean().optional(),
+  mobile: z.string().min(1, {
+    message: "Le téléphone est obligatoire",
+  }),
+  email: z.string().optional(),
+  city: z.string().optional(),
+  isIcc: z.boolean().default(false),
+  isStar: z.boolean().default(false),
+  isPilote: z.boolean().default(false),
+  giId: z.string().optional(),
+  /*isPilote: z.boolean().optional(),
   giId: z.number().optional(), */
-  })
-  .refine(
+});
+/*   .refine(
     (data) => {
       return data.giId != "0";
     },
@@ -47,7 +44,7 @@ export const personFormSchema = z
       message: "Le groupe d'impact est obligatoire",
       path: ["giId"],
     }
-  );
+  ); */
 
 export const meetingFormSchema = z
   .object({

@@ -69,7 +69,7 @@ const AddMemberForm = ({ openDialog, giId }: AddMemberFormProps) => {
       city: "",
       isIcc: false,
       isStar: false,
-      giId: "0",
+      //giId: "0",
       /* mobile: "", */
       /* isPilote: false, */
     },
@@ -259,6 +259,7 @@ const AddMemberForm = ({ openDialog, giId }: AddMemberFormProps) => {
                             <SelectValue placeholder="Selectionner un groupe d'Impact" />
                           </SelectTrigger>
                           <SelectContent position="popper">
+                            <SelectItem value="0">Aucun</SelectItem>
                             {gis &&
                               gis.map((gi: Gi) => (
                                 <SelectItem

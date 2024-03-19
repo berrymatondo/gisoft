@@ -9,6 +9,12 @@ type Inputs = z.infer<typeof personFormSchema>;
 export const addPerson = async (data: Inputs) => {
   const resut = personFormSchema.safeParse(data);
 
+  let dat: any;
+  if (!data.giId) dat = null;
+  else dat = data.giId;
+
+  //console.log("data:", data);
+
   if (resut.success) {
     const user = await prisma.person.create({
       data: {
@@ -20,7 +26,7 @@ export const addPerson = async (data: Inputs) => {
         isIcc: data.isIcc,
         isStar: data.isStar,
         isPilote: data.isPilote,
-        giId: data.giId ? +data.giId : 0,
+        giId: dat == "0" ? null : +dat,
         /* isPilote: data.isPilote,
          */
       },
@@ -45,10 +51,16 @@ export const addPerson = async (data: Inputs) => {
 export const updatePerson = async (data: Inputs) => {
   const resut = personFormSchema.safeParse(data);
 
-  // console.log("UPDATE:", data);
+  //console.log("UPDATE:", data);
 
   try {
     if (resut.success && data.id) {
+      let dat: any;
+      if (!data.giId) dat = null;
+      else dat = data.giId;
+
+      //console.log("dat:", dat);
+
       const updatePerson = await prisma.person.update({
         where: {
           id: +data.id,
@@ -62,7 +74,7 @@ export const updatePerson = async (data: Inputs) => {
           isIcc: data.isIcc ? data.isIcc : false,
           isStar: data.isStar ? data.isStar : false,
           isPilote: data.isPilote ? data.isPilote : false,
-          giId: data.giId ? +data.giId : 0,
+          giId: dat == "0" ? null : +dat,
           /*           lastname: data.lastname ? data.lastname : " ",
           email: data.email ? data.email : " ",
           mobile: data.mobile ? data.mobile : " ",
