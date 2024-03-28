@@ -10,9 +10,6 @@ import {
 const { auth } = NextAuth(authConfig);
 
 export default auth((req) => {
-  // const isLoggedIn = !!req.auth;
-  // console.log("ROUTE :", req.nextUrl.pathname);
-  // console.log("IS LOGGED IN :", isLoggedIn);
   const { nextUrl } = req;
   const isLoggedIn = !!req.auth;
 
@@ -22,7 +19,7 @@ export default auth((req) => {
 
   if (isApiAuthRoute) {
     return null;
-  }
+  } 
 
   if (isAuthRoute) {
     if (isLoggedIn) {

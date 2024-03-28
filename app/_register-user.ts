@@ -1,7 +1,7 @@
 "use server";
 
 import * as z from "zod";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 
 import { RegisterSchema } from "@/schemas";
 import { prisma } from "../lib/prisma";
@@ -18,6 +18,9 @@ export const register = async (data: z.infer<typeof RegisterSchema>) => {
 
   const { email, password, name, isAdmin } = validatedFields.data;
   const passwordHash = await bcrypt.hash(password, 10);
+
+  // Ce qui serait mieux est de définir une méthode reutilisable 
+  
 
   // const user_exists = await prisma.user.findUnique({
   //   where: {

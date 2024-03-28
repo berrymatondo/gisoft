@@ -1,5 +1,5 @@
 /**
- * Ici se trouvent une liste(tableau) de routes publiques
+ * Ici se trouvent une liste de routes publiques
  * Ces routes ne nécessitent pas de connexion
  * @type {string[]}
  */
@@ -20,4 +20,4 @@ export const apiAuthPrefix = "/api/auth";
  * la route par defaut de redirection quand un utilisateur est déjà connecté.
  * @type {string}
  */
-export const DEFAULT_LOGIN_REDIRECT_URL = "/";
+export const DEFAULT_LOGIN_REDIRECT_URL = "/dashboard";

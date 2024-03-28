@@ -34,6 +34,7 @@ import {
   SelectValue,
 } from "../ui/select";
 import { getGisAction } from "@/app/_actions";
+import { register } from "@/app/_register-user";
 
 export const RegisterForm = () => {
   const [isPending, startTransition] = useTransition();
@@ -48,6 +49,7 @@ export const RegisterForm = () => {
       name: "",
       password: "",
       confirmPassword: "",
+      // isAdmin: false, // pose probleme avec le checkbox
     },
   });
 
@@ -56,7 +58,7 @@ export const RegisterForm = () => {
     setSuccess("");
 
     startTransition(() => {
-      login(values).then((data) => {
+      register(values).then((data) => {
         setError(data.error);
         setSuccess(data.success);
       });
@@ -83,7 +85,6 @@ export const RegisterForm = () => {
   //   }
   // };
 
-
   return (
     <CardWrapper
       headerLabel="Nouveau compte"
@@ -93,23 +94,24 @@ export const RegisterForm = () => {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <div className="space-y-4">
-            {/* <FormField
+
+            <FormField
               control={form.control}
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Nom complet</FormLabel>
+                  <FormLabel>Nom</FormLabel>
                   <FormControl>
                     <Input
                       {...field}
                       disabled={isPending}
-                      placeholder="Djedou Armand"
+                      placeholder="djedou"
                     />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
-            /> */}
+            />
 
             <FormField
               control={form.control}
@@ -121,7 +123,7 @@ export const RegisterForm = () => {
                     <Input
                       {...field}
                       disabled={isPending}
-                      placeholder="djedou.armand@gmail.com"
+                      placeholder="dejdou.armaud@gmail.com"
                     />
                   </FormControl>
                   <FormMessage />
@@ -136,7 +138,7 @@ export const RegisterForm = () => {
                   <FormItem>
                     <FormLabel>Groupe d'Impact</FormLabel>
                     <Select
-                      disabled={form.watch("isAdmin")}
+                      // disabled={form.watch("isAdmin")}
                       onValueChange={field.onChange}
                     >
                       <SelectTrigger id="framework">
@@ -198,10 +200,7 @@ export const RegisterForm = () => {
               name="isAdmin"
               render={({ field }) => (
                 <FormLabel className="col-span-2 flex items-center text-black">
-                  <Checkbox
-                    checked={field.value}
-                    className="mr-2" // Ajoute une marge à droite pour séparer la case à cocher du texte
-                  />
+                  <Checkbox checked={field.value} className="mr-2" />
                   <span>Administrateur ?</span>
                 </FormLabel>
               )}

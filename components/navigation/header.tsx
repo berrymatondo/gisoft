@@ -7,6 +7,8 @@ import { Label } from "../ui/label";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { usePathname } from "next/navigation";
+import { auth, signOut } from "@/auth";
+
 const links = [
   { link: "/dashboard", name: "Dashboard" },
   { link: "/meetings", name: "Réunions" },
@@ -17,6 +19,7 @@ const links = [
 
 const Header = () => {
   const pathName = usePathname();
+  //const session = await auth();
 
   return (
     <div className="border-b border-white border-opacity-20 pb-4 w-full">
@@ -46,6 +49,17 @@ const Header = () => {
             <Label className=" text-white">Djedou</Label>
             <Label className=" text-xs text-yellow-400">GI Forest 7</Label>
           </div>
+          {/* 
+          <form
+            action={async () => {
+              "use server";
+              await signOut();
+            }}
+          >
+            <Button className="p-1 bg-red-600 text-white font-normal">
+              Déconnexion
+            </Button>
+          </form> */}
           <Button className="p-1 bg-red-600 text-white font-normal">
             Déconnexion
           </Button>
