@@ -49,6 +49,7 @@ export const RegisterForm = () => {
       name: "",
       password: "",
       confirmPassword: "",
+       // giId : 0,
       // isAdmin: false, // pose probleme avec le checkbox
     },
   });
@@ -141,7 +142,7 @@ export const RegisterForm = () => {
                       // disabled={form.watch("isAdmin")}
                       onValueChange={field.onChange}
                     >
-                      <SelectTrigger id="framework">
+                      <SelectTrigger id="giId">
                         <SelectValue placeholder="Sélectionner un GI" />
                       </SelectTrigger>
                       <SelectContent position="popper">

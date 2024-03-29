@@ -7,7 +7,8 @@ import { Label } from "../ui/label";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { usePathname } from "next/navigation";
-import { auth, signOut } from "@/auth";
+import { useSession, signOut } from "next-auth/react";
+import { useCurrentUser } from "@/hooks/use-current-user";
 
 const links = [
   { link: "/dashboard", name: "Dashboard" },
@@ -19,7 +20,12 @@ const links = [
 
 const Header = () => {
   const pathName = usePathname();
-  //const session = await auth();
+  //const session = useSession();
+  const user = useCurrentUser(); // Je vais utiliser ceci pour avoir les informations de l'utilisateur.
+
+  const handleSignout = () => {
+    signOut();
+  };
 
   return (
     <div className="border-b border-white border-opacity-20 pb-4 w-full">
@@ -44,26 +50,37 @@ const Header = () => {
             </Link>
           ))}
         </div>
-        <div className="flex gap-2">
-          <div className="flex flex-col justify-center items-center">
-            <Label className=" text-white">Djedou</Label>
-            <Label className=" text-xs text-yellow-400">GI Forest 7</Label>
-          </div>
-          {/* 
-          <form
-            action={async () => {
-              "use server";
-              await signOut();
-            }}
-          >
-            <Button className="p-1 bg-red-600 text-white font-normal">
+        
+        {user && (
+          <div className="flex gap-2">
+            <div className="flex flex-col justify-center items-center">
+              <Label className=" text-white"> {user?.name} </Label>
+              <Label className=" text-xs text-yellow-400">{user?.email}</Label>
+            </div>
+
+            <Button
+              className="p-1 bg-red-600 text-white font-normal"
+              onClick={handleSignout}
+            >
               Déconnexion
             </Button>
-          </form> */}
-          <Button className="p-1 bg-red-600 text-white font-normal">
+          </div>
+        )}
+
+        {/* 
+        <div className="flex gap-2">
+          <div className="flex flex-col justify-center items-center">
+            <Label className=" text-white"> {user?.name} </Label>
+            <Label className=" text-xs text-yellow-400"> {user?.email} </Label>
+          </div>
+
+          <Button
+            className="p-1 bg-red-600 text-white font-normal"
+            onClick={handleSignout}
+          >
             Déconnexion
           </Button>
-        </div>
+        </div> */}
         {/*         <div
           className="
          bg-red-400"
