@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { ModeToggle } from "../modeToggle";
 import logo from "../../public/logo.png";
 import Image from "next/image";
@@ -7,7 +7,8 @@ import { Label } from "../ui/label";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { usePathname } from "next/navigation";
-import { useSession, signOut } from "next-auth/react";
+import { FiLoader } from "react-icons/fi";
+import { signOut } from "next-auth/react";
 import { useCurrentUser } from "@/hooks/use-current-user";
 
 const links = [
@@ -20,11 +21,14 @@ const links = [
 
 const Header = () => {
   const pathName = usePathname();
-  //const session = useSession();
-  const user = useCurrentUser(); // Je vais utiliser ceci pour avoir les informations de l'utilisateur.
+  const user = useCurrentUser();
+  const [isLogginOut, setIsLogginOut] = useState(false);
 
   const handleSignout = () => {
-    signOut();
+    setIsLogginOut(true);
+    setTimeout(() => {
+      signOut();
+    }, 3000);
   };
 
   return (
@@ -50,7 +54,7 @@ const Header = () => {
             </Link>
           ))}
         </div>
-        
+
         {user && (
           <div className="flex gap-2">
             <div className="flex flex-col justify-center items-center">
@@ -67,27 +71,14 @@ const Header = () => {
           </div>
         )}
 
-        {/* 
-        <div className="flex gap-2">
-          <div className="flex flex-col justify-center items-center">
-            <Label className=" text-white"> {user?.name} </Label>
-            <Label className=" text-xs text-yellow-400"> {user?.email} </Label>
+        {isLogginOut && (
+          <div className="fixed top-0 left-0 w-screen h-screen flex justify-center items-center bg-black bg-opacity-50 z-50">
+            <div className="flex items-center text-yellow-400 text-lg">
+              <FiLoader className="animate-spin mr-2" />
+              <span>Déconnexion en cours...</span>
+            </div>
           </div>
-
-          <Button
-            className="p-1 bg-red-600 text-white font-normal"
-            onClick={handleSignout}
-          >
-            Déconnexion
-          </Button>
-        </div> */}
-        {/*         <div
-          className="
-         bg-red-400"
-        >
-          <Image src={logo} alt="logo" className="bg-green-400" />
-        </div> 
-        <ModeToggle />*/}
+        )}
       </nav>
     </div>
   );

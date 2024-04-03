@@ -21,7 +21,7 @@ const styles = {
     zIndex: -1,
   },
   formContainer: {
-    zIndex: 1, 
+    zIndex: 1,
   },
 };
 
@@ -31,9 +31,13 @@ const LoginUser = () => {
       <Image
         src={ImageFond}
         alt="Image de fond"
-        style={styles.backgroundImage as React.CSSProperties}
+        style={{
+          width: "100%",
+          objectFit: "cover",
+          ...(styles.backgroundImage as React.CSSProperties),
+        }}
       />
-      <LoginForm  />
+      <LoginForm />
     </div>
   );
 };

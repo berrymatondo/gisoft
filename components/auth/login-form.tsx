@@ -21,11 +21,13 @@ import { CardWrapper } from "./card-wrapper";
 import { login } from "@/app/_login-user";
 import { FormError } from "../form-error";
 import { FormSuccess } from "../form-success";
+import { FiLoader } from "react-icons/fi";
 
 export const LoginForm = () => {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
@@ -35,16 +37,22 @@ export const LoginForm = () => {
     },
   });
 
+
   const onSubmit = (values: z.infer<typeof LoginSchema>) => {
+    setIsLoading(true);
     setError("");
     setSuccess("");
 
-    startTransition(() => {
-      login(values).then((data) => {
+    setTimeout(async () => {
+      try {
+        const data = await login(values);
         setError(data?.error);
-        //setSuccess(data?.success); 
-      });
-    });
+      } catch (error) {
+        setError("Une erreur s'est produite lors de la connexion.");
+      } finally {
+        setIsLoading(false);
+      }
+    }, 3000);
   };
 
   return (
@@ -95,8 +103,16 @@ export const LoginForm = () => {
           </div>
           <FormError message={error} />
           <FormSuccess message={success} />
-          <Button type="submit" className="w-full">
-            Se Connecter
+
+          <Button type="submit" className="w-full" disabled={isPending}>
+            {isLoading ? (
+              <>
+                <FiLoader className="animate-spin mr-2" />
+                Connexion en cours...
+              </>
+            ) : (
+              "Se Connecter"
+            )}
           </Button>
         </form>
       </Form>

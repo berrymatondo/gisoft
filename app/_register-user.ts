@@ -17,17 +17,9 @@ export const register = async (data: z.infer<typeof RegisterSchema>) => {
     };
   }
 
-  const { email, password, name, isAdmin } = validatedFields.data;
+  const { email, password, name, isAdmin, giId } = validatedFields.data;
   const passwordHash = await bcrypt.hash(password, 10);
 
-  // Ce qui serait mieux est de définir une méthode reutilisable 
-  
-
-  // const user_exists = await prisma.user.findUnique({
-  //   where: {
-  //     email,
-  //   },
-  // });
   const user_exists = await getUserByEmail(email);
 
   if (user_exists) {
@@ -42,6 +34,7 @@ export const register = async (data: z.infer<typeof RegisterSchema>) => {
       name,
       password: passwordHash,
       isPilot: isAdmin,
+      giId: giId ? parseInt(giId) : undefined,
     },
   });
 

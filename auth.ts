@@ -35,7 +35,6 @@ export const {
 
       token.role = user.role;
 
-      // console.log("token :", token);
       return token;
     },
   },

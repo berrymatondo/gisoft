@@ -49,7 +49,7 @@ export const RegisterForm = () => {
       name: "",
       password: "",
       confirmPassword: "",
-       // giId : 0,
+      giId: "",
       // isAdmin: false, // pose probleme avec le checkbox
     },
   });
@@ -95,7 +95,6 @@ export const RegisterForm = () => {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <div className="space-y-4">
-
             <FormField
               control={form.control}
               name="name"
