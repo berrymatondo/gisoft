@@ -59,7 +59,9 @@ const Header = () => {
           <div className="flex gap-2">
             <div className="flex flex-col justify-center items-center">
               <Label className=" text-white"> {user?.name} </Label>
-              <Label className=" text-xs text-yellow-400">{user?.email}</Label>
+              <Label className=" text-xs text-yellow-400">
+                {user.giId?.name}
+              </Label>
             </div>
 
             <Button

@@ -23,6 +23,22 @@ export const {
       if (token.role && session.user) {
         session.user.role = token.role as Role;
       }
+
+      if (token.giId && session.user) {
+        const gi = await prisma.gi.findUnique({
+          where: {
+            id: +token.giId ,
+          },
+        });
+
+        console.log("Informations du GI : ", gi);
+
+        if (gi) {
+          session.user.giId = gi;
+        }
+
+        console.log("Session User : ", session.user);
+      }
       return session;
     },
 
@@ -34,6 +50,7 @@ export const {
       if (!user) return token;
 
       token.role = user.role;
+      token.giId = user.giId;
 
       return token;
     },

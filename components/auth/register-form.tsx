@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { toast } from "sonner"; // Je compte l'utiliser au cas où la connexion est réussie.
 import { useTransition, useState, useEffect } from "react";
+import { FiLoader } from "react-icons/fi";
 
 import {
   Form,
@@ -21,7 +22,6 @@ import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
 import { RegisterSchema } from "@/schemas";
 import { CardWrapper } from "./card-wrapper";
-import { login } from "@/app/_login-user";
 import { FormError } from "../form-error";
 import { FormSuccess } from "../form-success";
 import {
@@ -41,6 +41,7 @@ export const RegisterForm = () => {
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
   const [gis, setGis] = useState<any>();
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
@@ -50,20 +51,32 @@ export const RegisterForm = () => {
       password: "",
       confirmPassword: "",
       giId: "",
-      // isAdmin: false, // pose probleme avec le checkbox
+      // isAdmin: false, // tous les utilisateurs sont USER par defaut dans un premier temps.
     },
   });
 
   const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
+    setIsLoading(true);
     setError("");
     setSuccess("");
 
-    startTransition(() => {
-      register(values).then((data) => {
-        setError(data.error);
-        setSuccess(data.success);
-      });
-    });
+    setTimeout(async () => {
+      try {
+        const data = await register(values);
+        setError(data?.error);
+      } catch (error) {
+        setError("Une erreur s'est produite lors de l'inscription");
+      } finally {
+        setIsLoading(false);
+      }
+    }, 3000);
+
+    // startTransition(() => {
+    //   register(values).then((data) => {
+    //     setError(data.error);
+    //     setSuccess(data.success);
+    //   });
+    // });
   };
 
   useEffect(() => {
@@ -208,8 +221,16 @@ export const RegisterForm = () => {
           </div>
           <FormError message={error} />
           <FormSuccess message={success} />
-          <Button type="submit" className="w-full">
-            Enregistrer
+
+          <Button type="submit" className="w-full" disabled={isPending}>
+            {isLoading ? (
+              <>
+                <FiLoader className="animate-spin mr-2" />
+                Inscription en cours...
+              </>
+            ) : (
+              "S'inscrire"
+            )}
           </Button>
         </form>
       </Form>

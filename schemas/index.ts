@@ -25,12 +25,6 @@ export const RegisterSchema = z
     }),
     isAdmin: z.boolean().optional().default(false),
     giId: z.string().optional(),
-    // .refine((giId) => {
-    //   if (typeof giId !== "undefined" && isNaN(giId)) {
-    //     return "L'ID du GI doit être un nombre";
-    //   }
-    //   return true;
-    // }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Les mots de passe ne correspondent pas",
