@@ -13,6 +13,20 @@ export const {
   signOut,
 } = NextAuth({
   callbacks: {
+    async signIn({ user, account }) {
+      if (account?.provider !== "credentials") {
+        const user_exists = await getUserById(user.id ? user.id : "0");
+
+        // Tannt que le mail n'est pas vérifié, l'utilisateur ne peut pas se connecter.
+        if (!user_exists?.emailVerified) {
+          return false;
+        }
+
+        return true;
+      }
+
+      return true;
+    },
     async session({ session, token }) {
       console.log("sessionToken", token);
       if (token.sub && session.user) {
@@ -27,7 +41,7 @@ export const {
       if (token.giId && session.user) {
         const gi = await prisma.gi.findUnique({
           where: {
-            id: +token.giId ,
+            id: +token.giId,
           },
         });
 

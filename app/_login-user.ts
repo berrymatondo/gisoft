@@ -6,6 +6,8 @@ import { LoginSchema } from "@/schemas";
 import { DEFAULT_LOGIN_REDIRECT_URL } from "@/routes";
 import { AuthError } from "next-auth";
 import { getUserByEmail } from "@/lib/user";
+import { generateVerificationToken } from "@/lib/tokens";
+import { sendVerificationEmail } from "@/lib/mail";
 
 export const login = async (data: z.infer<typeof LoginSchema>) => {
   const validatedFields = LoginSchema.safeParse(data);
@@ -22,6 +24,25 @@ export const login = async (data: z.infer<typeof LoginSchema>) => {
 
   const user_exists = await getUserByEmail(email);
 
+  if (!user_exists || !user_exists.email || !user_exists.password) {
+    return {
+      error: "Email ou mot de passe invalide !",
+    };
+  }
+
+  if (!user_exists.emailVerified) {
+    const verificationToken = await generateVerificationToken(
+      user_exists.email
+    );
+
+    await sendVerificationEmail(
+      verificationToken.email,
+      verificationToken.token
+    );
+
+    return { success: "Un mail de confirmation est envoyé" };
+  }
+
   try {
     await signIn("credentials", {
       email,
@@ -34,7 +55,7 @@ export const login = async (data: z.infer<typeof LoginSchema>) => {
         case "CredentialsSignin":
           return { error: "Email ou mot de passe invalide !" };
         default:
-          return { error: "Quelque s'est mal passé" };
+          return { error: "Quelque chose s'est mal passé" };
       }
     }
 
