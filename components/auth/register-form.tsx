@@ -43,6 +43,7 @@ export const RegisterForm = () => {
   const [gis, setGis] = useState<any>();
   const [isLoading, setIsLoading] = useState(false);
 
+
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
@@ -64,6 +65,15 @@ export const RegisterForm = () => {
       try {
         const data = await register(values);
         setError(data?.error);
+        setSuccess(data?.success);
+
+        if(data?.success) {
+          toast.success(data.success);
+          setTimeout(() => {
+            window.location.href = "/auth/login";
+          }, 2000);
+        }
+
       } catch (error) {
         setError("Une erreur s'est produite lors de l'inscription");
       } finally {
