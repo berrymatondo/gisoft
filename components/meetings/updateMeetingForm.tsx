@@ -150,16 +150,20 @@ const UpdateMeetingForm = ({ inMeeting }: UpdateMeetingFormProps) => {
       {" "}
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild className="max-md:hidden">
-          <Button className="bg-orange-400 text-white">Editer</Button>
+          <Button className="" variant="outline">
+            Editer
+          </Button>
         </DialogTrigger>
         <DialogTrigger asChild className="md:hidden">
           <span>
             <MdEdit className="text-orange-400 md:hidden" size={20} />
           </span>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px] bg-[#1b4c48] text-white">
+        <DialogContent className="sm:max-w-[500px] ">
           <DialogHeader>
-            <DialogTitle>{"Modifier le rapport d'un GI"}</DialogTitle>
+            <DialogTitle className="text-4xl text-blue-600">
+              {"Modifier le rapport d'un GI"}
+            </DialogTitle>
           </DialogHeader>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(procesForm)}>
@@ -457,7 +461,7 @@ const UpdateMeetingForm = ({ inMeeting }: UpdateMeetingFormProps) => {
                             </FormControl>
                             <Label className="ml-2" htmlFor="isIcc">
                               {"La réunion était en présentiel ?"}
-                              <span className="text-yellow-400 pl-2">
+                              <span className="text-blue-600 pl-2">
                                 {form.watch("onLine") ? "OUI" : "NON"}
                               </span>
                             </Label>

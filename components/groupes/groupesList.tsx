@@ -29,9 +29,10 @@ import GiRow from "./giRow";
 type GroupesListProps = {
   gis: any;
   secteurs: any;
+  addresses: any;
 };
 
-const GroupesList = ({ gis, secteurs }: GroupesListProps) => {
+const GroupesList = ({ gis, secteurs, addresses }: GroupesListProps) => {
   noStore();
   // const gisr = getGis();
 
@@ -39,19 +40,19 @@ const GroupesList = ({ gis, secteurs }: GroupesListProps) => {
   // console.log("GIS  av  :", gis);
 
   return (
-    <Card className="w-full bg-[#1b4c48] text-white">
+    <Card className="w-full ">
       <CardHeader>
         <div className="flex justify-between items-center">
-          <CardTitle>
-            {"Les groupes d'impact ("}
+          <CardTitle className="text-blue-600 text-4xl">
+            {"Les cellules d'impact ("}
             {gis.length}
             {")"}
           </CardTitle>
           <AddGroupForm />
         </div>
-        <CardDescription className="text-yellow-400">
+        <CardDescription className="text-neutral-600">
           {
-            "Cette transaction affiche la liste de tous les groupes d'impact connus dans le système"
+            "Cette transaction affiche la liste de toutes les cellules d'impact connues dans le système"
           }
         </CardDescription>
       </CardHeader>
@@ -63,23 +64,36 @@ const GroupesList = ({ gis, secteurs }: GroupesListProps) => {
             <Table>
               <TableHeader className="px-0">
                 <TableRow>
-                  <TableHead className=" text-teal-200 ">
-                    {"Grp d'Impact"}
-                  </TableHead>
-                  <TableHead className=" text-teal-200 max-md:hidden">
-                    Pilote
+                  <TableHead className=" text-blue-600 font-semibold">
+                    {"Cellule"}
                   </TableHead>
                   {/*                   <TableHead className=" text-teal-200 ">Pilote</TableHead>
                    */}{" "}
-                  <TableHead className=" text-teal-200 ">Effectif</TableHead>
-                  <TableHead className="text-right text-teal-200">
+                  <TableHead className=" text-blue-600 font-semibold ">
+                    Effectif
+                  </TableHead>
+                  <TableHead className=" text-blue-600 font-semibold ">
+                    Adresse hôte
+                  </TableHead>
+                  <TableHead className=" text-blue-600 font-semibold max-md:hidden">
+                    Secteur
+                  </TableHead>
+                  <TableHead className=" text-blue-600 font-semibold max-md:hidden">
+                    Statut
+                  </TableHead>
+                  <TableHead className="text-right text-blue-600 font-semibold">
                     Actions
                   </TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {gis.map((gi: any) => (
-                  <GiRow key={gi.id} gi={gi} secteurs={secteurs} />
+                  <GiRow
+                    key={gi.id}
+                    gi={gi}
+                    secteurs={secteurs}
+                    addresses={addresses}
+                  />
                 ))}
               </TableBody>
             </Table>

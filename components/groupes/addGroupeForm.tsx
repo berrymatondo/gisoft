@@ -20,7 +20,7 @@ import {
 } from "../ui/select";
 import { useEffect, useState } from "react";
 import { addGiAction, getSecteursAction } from "@/app/_actions";
-import { Secteur } from "@prisma/client";
+import { Address, Secteur } from "@prisma/client";
 import { useForm } from "react-hook-form";
 import { giFormSchema } from "@/lib/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -34,15 +34,18 @@ import {
   FormLabel,
   FormMessage,
 } from "../ui/form";
+import { getAddresses } from "@/lib/addresses";
 
 const AddGroupForm = () => {
   const [secteurs, setSecteurs] = useState<any>();
+  const [addresses, setAddresses] = useState<any>();
   const [open, setOpen] = useState(false);
   const form = useForm<z.infer<typeof giFormSchema>>({
     resolver: zodResolver(giFormSchema),
     defaultValues: {
       name: "",
       secteurId: "",
+      addressId: "",
     },
   });
 
@@ -56,10 +59,20 @@ const AddGroupForm = () => {
       setSecteurs(data);
     };
     fetchSecteurs();
+
+    const fetchAddresses = async () => {
+      const data = await getAddresses();
+      //const data = res.json();
+
+      //console.log("adresses: ", data);
+
+      setAddresses(data);
+    };
+    fetchAddresses();
   }, []);
 
   const procesForm = async (values: z.infer<typeof giFormSchema>) => {
-    //console.log("Value:", values);
+    console.log("Value:", values);
 
     const res = await addGiAction(values);
 
@@ -81,11 +94,13 @@ const AddGroupForm = () => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="text-black bg-yellow-400">Nouveau</Button>
+        <Button className="text-white ">Nouveau</Button>
       </DialogTrigger>
-      <DialogContent className=" bg-[#1b4c48] text-white">
+      <DialogContent className="">
         <DialogHeader>
-          <DialogTitle>{"Ajouter un groupe d'impact"}</DialogTitle>
+          <DialogTitle className="text-blue-600 text-4xl">
+            {"Ajouter un groupe d'impact"}
+          </DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(procesForm)}>
@@ -128,6 +143,36 @@ const AddGroupForm = () => {
                               value={secteur.id.toString()}
                             >
                               {secteur.name}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+
+                      <FormMessage />
+                    </FormItem>
+                  );
+                }}
+              />
+
+              <FormField
+                control={form.control}
+                name="addressId"
+                render={({ field }) => {
+                  return (
+                    <FormItem>
+                      <FormLabel>{"Adresse de la cellule d'impact"} </FormLabel>
+                      <Select onValueChange={field.onChange}>
+                        <SelectTrigger id="framework">
+                          <SelectValue placeholder="Sélectionner un secteur" />
+                        </SelectTrigger>
+                        <SelectContent position="popper">
+                          {addresses.map((address: Address) => (
+                            <SelectItem
+                              key={address.id}
+                              value={address.id.toString()}
+                            >
+                              {address.street}, {address.number}{" "}
+                              {address.postalCode} {address.municipality}
                             </SelectItem>
                           ))}
                         </SelectContent>

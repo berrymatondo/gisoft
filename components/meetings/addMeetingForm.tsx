@@ -112,11 +112,11 @@ const AddMeetingForm = () => {
     <div className="">
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button className="text-black bg-yellow-400">Nouveau</Button>
+          <Button className="">Nouveau</Button>
         </DialogTrigger>
-        <DialogContent className=" bg-[#1b4c48] text-white">
+        <DialogContent className=" ">
           <DialogHeader>
-            <DialogTitle className="text-yellow-400">
+            <DialogTitle className="text-blue-600 text-4xl">
               Ajouter nouveau rapport
             </DialogTitle>
           </DialogHeader>
@@ -336,7 +336,7 @@ const AddMeetingForm = () => {
                             </FormControl>
                             <Label className="ml-2" htmlFor="isIcc">
                               {"La réunion était en présentiel ?"}
-                              <span className="text-yellow-400 pl-2">
+                              <span className="text-blue-600 pl-2">
                                 {form.watch("onLine") ? "OUI" : "NON"}
                               </span>
                             </Label>

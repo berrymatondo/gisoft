@@ -22,8 +22,10 @@ const MeetingsPage = async () => {
   //console.log("Meetings", meetings);
 
   return (
-    <div className="h-full flex-1 px-1 w-full">
+    <div className="h-full p-8 grid grid-cols-5 w-full">
+      <div></div>
       <MeetingsList meetings={meetings} gis={gis} />
+      <div></div>
     </div>
   );
 };

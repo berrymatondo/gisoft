@@ -23,7 +23,7 @@ const MembersPage = async () => {
   });
 
   return (
-    <div className="h-full flex-1 px-1 w-full">
+    <div className="h-full py-8 px-32 w-full">
       <MembersList members={members} gis={gis} />
     </div>
   );

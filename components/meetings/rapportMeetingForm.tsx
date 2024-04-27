@@ -45,6 +45,7 @@ import { format } from "date-fns";
 import { deleteMeeting } from "@/lib/meetings";
 import CopyToClipboard from "react-copy-to-clipboard";
 import { MdOutlineContentCopy } from "react-icons/md";
+import { HiOutlineDocumentReport } from "react-icons/hi";
 
 type DeleteMeetingProps = {
   meeting: any;
@@ -55,7 +56,8 @@ const RapportMeetingForm = ({ meeting }: DeleteMeetingProps) => {
   const backdrop =
     "top-0 left-0 z-10 w-full h-full absolute flex justify-center items-center";
   const wind = " w-96 flex flex-col rounded-lg overflow-hidden";
-  const container = "border-b text-white p-4 flex justify-between items-center";
+  const container =
+    "border-b text-white py-4 flex justify-between items-center";
   const title = "text-yellow-400 text-xl inline cursor-pointer";
   const subTitle = "font-bold";
   const content = "p-4 text-white my-1 rounded";
@@ -115,14 +117,19 @@ const RapportMeetingForm = ({ meeting }: DeleteMeetingProps) => {
       {" "}
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild className="max-md:hidden">
-          <Button className="text-black bg-yellow-500">Rapport</Button>
+          <Button className="" variant="secondary">
+            Rapport
+          </Button>
         </DialogTrigger>
         <DialogTrigger asChild className="md:hidden">
           <span>
-            <MdDeleteForever className="text-red-600 md:hidden" size={25} />{" "}
+            <HiOutlineDocumentReport
+              className="text-yellow-500 md:hidden"
+              size={25}
+            />{" "}
           </span>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px] bg-[#1b4c48]">
+        <DialogContent className="sm:max-w-[425px] ">
           {/*           <DialogHeader>
             <DialogTitle>{"Supprimer un rapport"}</DialogTitle>
           </DialogHeader> */}
@@ -132,24 +139,26 @@ const RapportMeetingForm = ({ meeting }: DeleteMeetingProps) => {
                 <div className={wind}>
                   <CopyToClipboard text={val} onCopy={() => setCopied(true)}>
                     <div className={container}>
-                      <h1 className={title}>
+                      <h1 className="text-blue-600 text-xl">
                         Rapport du GI{" "}
                         <span className={subTitle}>{meeting.gi.name}</span>
                       </h1>
                       {copied ? (
-                        <div className="text-green-400 text-sm">{"Copié"}</div>
+                        <div className="text-blue-600 text-sm">{"Copié"}</div>
                       ) : (
                         ""
                       )}
 
-                      <MdOutlineContentCopy
-                        onClick={() => copyHandler()}
-                        className="cursor-pointer "
-                      />
+                      <span className="text-blue-600">
+                        <MdOutlineContentCopy
+                          onClick={() => copyHandler()}
+                          className="cursor-pointer "
+                        />
+                      </span>
                     </div>
                   </CopyToClipboard>
 
-                  <div className={content}>
+                  <div className="">
                     <p>Bonsoir Pasteur Dominique, </p>
                     <p>Bonsoir à tous, </p>
                     <br />
@@ -183,7 +192,11 @@ const RapportMeetingForm = ({ meeting }: DeleteMeetingProps) => {
                   Confirmer
                 </Button> */}
                 <DialogClose asChild>
-                  <Button type="button" className="max-md:mt-4 w-full">
+                  <Button
+                    type="button"
+                    variant="secondary"
+                    className="max-md:mt-4 w-full text-red-600"
+                  >
                     Annuler
                   </Button>
                 </DialogClose>

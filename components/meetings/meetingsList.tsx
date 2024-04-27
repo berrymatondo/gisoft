@@ -66,17 +66,17 @@ const MeetingsList = ({ meetings, gis }: MeetingsListProps) => {
   }, [reg]); */
 
   return (
-    <Card className="w-full bg-[#1b4c48] text-white">
+    <Card className="w-full col-span-3">
       <CardHeader>
         <div className="flex justify-between items-center">
-          <CardTitle className="max-md:text-xl">
+          <CardTitle className="max-md:text-xl text-4xl text-blue-600">
             {"Nos réunions ("}
             {newMeets.length}
             {")"}
           </CardTitle>
           <AddMeetingForm />
         </div>
-        <CardDescription className="text-yellow-400">
+        <CardDescription className="text-neutral-600">
           {
             "Cette transaction affiche la liste de toutes les réunions d'un groupe d'impact"
           }
@@ -130,42 +130,42 @@ const MeetingsList = ({ meetings, gis }: MeetingsListProps) => {
              */}{" "}
             <TableHeader>
               <TableRow className="px-2">
-                <TableHead className="max-md:text-xs text-teal-200 w-[60px]">
+                <TableHead className="max-md:text-xs text-blue-600 w-[60px]">
                   Date
                 </TableHead>
-                <TableHead className="max-md:hidden text-teal-200">
+                <TableHead className="max-md:hidden text-blue-600">
                   {"Participants"}
                 </TableHead>
-                <TableHead className="md:hidden max-md:text-xs text-teal-200">
+                <TableHead className="md:hidden max-md:text-xs text-blue-600">
                   {"Part/Conn"}
                 </TableHead>
-                <TableHead className="max-md:hidden text-teal-200">
+                <TableHead className="max-md:hidden text-blue-600">
                   {"Connexions"}
                 </TableHead>
 
-                <TableHead className="max-md:hidden text-teal-200">
+                <TableHead className="max-md:hidden text-blue-600">
                   {"Membre ICC"}
                 </TableHead>
-                <TableHead className="max-md:hidden text-teal-200">
+                <TableHead className="max-md:hidden text-blue-600">
                   {"Membre Non ICC"}
                 </TableHead>
 
-                <TableHead className="md:hidden max-md:text-xs text-teal-200">
+                <TableHead className="md:hidden max-md:text-xs text-blue-600">
                   {"Icc/NIcc."}
                 </TableHead>
 
-                <TableHead className="max-md:hidden text-teal-200">
+                <TableHead className="max-md:hidden text-blue-600">
                   {"Star"}
                 </TableHead>
-                <TableHead className="md:hidden max-md:text-xs text-teal-200">
+                <TableHead className="md:hidden max-md:text-xs text-blue-600">
                   {"Star/Inv."}
                 </TableHead>
 
-                <TableHead className="max-md:hidden text-teal-200">
+                <TableHead className="max-md:hidden text-blue-600">
                   {"Invités"}
                 </TableHead>
 
-                <TableHead className="max-md:text-xs text-right text-teal-200"></TableHead>
+                <TableHead className="max-md:text-xs text-right text-blue-600"></TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>

@@ -48,6 +48,7 @@ import SecteursList from "@/components/secteurs/secteursList";
 import GroupesList from "@/components/groupes/groupesList";
 import { prisma } from "@/lib/prisma";
 import { getGisAction } from "../_actions";
+import { getAddresses } from "@/lib/addresses";
 
 export default async function GisPage() {
   const secteurs = await prisma.secteur.findMany({
@@ -55,6 +56,8 @@ export default async function GisPage() {
       gis: true,
     },
   });
+
+  const addresses = await getAddresses();
   // Get groupes
   const gis = await getGisAction();
   // const gis = await prisma.gi.findMany();
@@ -63,20 +66,27 @@ export default async function GisPage() {
   // console.log("SECTEUR LE:", secteurs);
 
   return (
-    <div className="h-full flex-1 px-1 w-full">
-      <Tabs defaultValue="group" className="w-full ">
-        <TabsList className="grid w-full grid-cols-2 bg-[#36625f] text-teal-200 ">
+    <div className="w-full  gap-4 p-8 grid grid-cols-5">
+      <div>
+        <Input placeholder="Rechercher" />
+      </div>
+      <Tabs
+        defaultValue="group"
+        className="col-span-3 w-full border-none bg-neutral-300/20 "
+      >
+        <TabsList className="grid w-full grid-cols-2  text-gray-400 ">
           <TabsTrigger value="group">Groupes</TabsTrigger>
           <TabsTrigger value="secteur">Secteurs</TabsTrigger>
         </TabsList>
 
         <TabsContent value="group">
-          <GroupesList gis={gis} secteurs={secteurs} />
+          <GroupesList gis={gis} secteurs={secteurs} addresses={addresses} />
         </TabsContent>
         <TabsContent value="secteur">
           <SecteursList secteurs={secteurs} />
         </TabsContent>
       </Tabs>
+      <div></div>
     </div>
   );
 }

@@ -1,0 +1,417 @@
+"use client";
+import { Button } from "../ui/button";
+import { Label } from "../ui/label";
+import { Input } from "../ui/input";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+
+import * as z from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "../ui/form";
+import { addSecteur } from "@/app/_actionsSecteur";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
+import { addressFormSchema, personFormSchema } from "@/lib/schema";
+import { addPerson } from "@/app/_actionsMember";
+import { Checkbox } from "../ui/checkbox";
+import { getGis } from "@/lib/gis";
+import { Gi } from "@prisma/client";
+import { addAddress, setGeoLoc } from "@/lib/addresses";
+
+type AddMemberFormProps = {
+  openDialog: boolean;
+  giId?: number;
+};
+
+const AddAddressForm = ({ openDialog, giId }: AddMemberFormProps) => {
+  const [open, setOpen] = useState(openDialog);
+  const [gis, setGis] = useState<any>();
+  const [gi, setGi] = useState("");
+  const [name, setName] = useState("");
+  const [recSuccess, setRecSuccess] = useState(false);
+
+  useEffect(() => {
+    const fetchGis = async () => {
+      const data = await getGis();
+
+      setGis(data);
+    };
+    fetchGis();
+  }, []);
+
+  const form = useForm<z.infer<typeof addressFormSchema>>({
+    resolver: zodResolver(addressFormSchema),
+    defaultValues: {
+      street: "",
+      number: "",
+      box: "",
+      postalCode: "",
+      municipality: "",
+      city: "",
+      country: "Belgique",
+      //giId: "0",
+      /* mobile: "", */
+      /* isPilote: false, */
+    },
+  });
+
+  /*   const icc = form.watch("isIcc");
+  const sel = form.watch("giId"); */
+
+  const procesForm = async (values: z.infer<typeof addressFormSchema>) => {
+    //console.log("Values XXX:", values);
+
+    const res = await addAddress(values);
+
+    if (!res) {
+      console.log("Une erreur est sub...");
+    }
+
+    if (res!.error) {
+      console.log(res!.error);
+      return;
+    }
+
+    //console.log("RES: ", res);
+
+    // Set GeoLoc
+    const geoLoc = await setGeoLoc(res?.data);
+    if (!geoLoc?.error) {
+      toast.warning(
+        "Aucune géo localisation pour cette adresse, veuillez contacter un administrateur."
+      );
+    }
+
+    toast.success("L'adresse a été créée avec succes.", {
+      description: new Date().toISOString().split("T")[0],
+    });
+    form.reset();
+    setOpen(false);
+  };
+
+  //console.log("AJOUT PERSON ");
+
+  return (
+    <div className="">
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogTrigger asChild>
+          <Button className=" bg-blue-600 m-2">Nouvelle adresse</Button>
+        </DialogTrigger>
+        <DialogContent className=" ">
+          <DialogHeader>
+            <DialogTitle className="text-blue-600 text-4xl">
+              Ajouter une nouvelle adresse
+            </DialogTitle>
+          </DialogHeader>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(procesForm)}>
+              <div className="grid gap-4 py-4">
+                <div className="flex max-md:flex-col justify-between gap-4 max-md:gap-2">
+                  <FormField
+                    control={form.control}
+                    name="street"
+                    render={({ field }) => {
+                      return (
+                        <FormItem className="w-full">
+                          <FormLabel>{"Avenue / Rue"}</FormLabel>
+                          <FormControl>
+                            <Input
+                              {...field}
+                              placeholder="Entrer l'avenue, rue"
+                              type="text"
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      );
+                    }}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="number"
+                    render={({ field }) => {
+                      return (
+                        <FormItem className="w-full">
+                          <FormLabel>{"Numéro"}</FormLabel>
+                          <FormControl>
+                            <Input
+                              {...field}
+                              placeholder="Entrer le numéro"
+                              type="text"
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      );
+                    }}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="box"
+                    render={({ field }) => {
+                      return (
+                        <FormItem className="w-full">
+                          <FormLabel>{"Boîte"}</FormLabel>
+                          <FormControl>
+                            <Input
+                              {...field}
+                              placeholder="Entrer la boîte"
+                              type="text"
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      );
+                    }}
+                  />
+                </div>
+
+                <div className="flex max-md:flex-col justify-between gap-4  max-md:gap-2">
+                  <FormField
+                    control={form.control}
+                    name="postalCode"
+                    render={({ field }) => {
+                      return (
+                        <FormItem className="w-full">
+                          <FormLabel>{"Code Postal"}</FormLabel>
+                          <FormControl>
+                            <Input
+                              {...field}
+                              placeholder="Entrer le code postal"
+                              type="text"
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      );
+                    }}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="municipality"
+                    render={({ field }) => {
+                      return (
+                        <FormItem className="w-full">
+                          <FormLabel>{"Commune/Municipalité"}</FormLabel>
+                          <FormControl>
+                            <Input
+                              {...field}
+                              placeholder="Entrer la commune"
+                              type="text"
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      );
+                    }}
+                  />
+                </div>
+
+                <div className="flex max-md:flex-col justify-between gap-4  max-md:gap-2">
+                  <FormField
+                    control={form.control}
+                    name="city"
+                    render={({ field }) => {
+                      return (
+                        <FormItem className="w-full">
+                          <FormLabel>{"Ville"}</FormLabel>
+                          <FormControl>
+                            <Input
+                              {...field}
+                              placeholder="Entrer le nom de la ville"
+                              type="text"
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      );
+                    }}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="country"
+                    render={({ field }) => {
+                      return (
+                        <FormItem className="w-full">
+                          <FormLabel>{"Pays "}</FormLabel>
+                          <FormControl>
+                            <Input
+                              {...field}
+                              placeholder="Entrer le nom du pays"
+                              type="text"
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      );
+                    }}
+                  />
+                </div>
+
+                <div className="flex max-md:flex-col justify-between gap-4  max-md:gap-2">
+                  <FormField
+                    control={form.control}
+                    name="longitude"
+                    render={({ field }) => {
+                      return (
+                        <FormItem className="w-full">
+                          <FormLabel>{"Longitude"}</FormLabel>
+                          <FormControl>
+                            <Input
+                              {...field}
+                              placeholder="Entrer la longitude"
+                              type="text"
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      );
+                    }}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="latitude"
+                    render={({ field }) => {
+                      return (
+                        <FormItem className="w-full">
+                          <FormLabel>{"Latitude "}</FormLabel>
+                          <FormControl>
+                            <Input
+                              {...field}
+                              placeholder="Entrer la latitude"
+                              type="text"
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      );
+                    }}
+                  />
+                </div>
+
+                {/*                 <div className="flex max-md:flex-col justify-between gap-4">
+                  <FormField
+                    control={form.control}
+                    name="isIcc"
+                    render={({ field }) => {
+                      return (
+                        <FormItem className="w-full">
+                          <FormControl>
+                            <Checkbox
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                          <Label className="ml-2" htmlFor="isIcc">
+                            Etes-vous un membre des églises ICC ?
+                          </Label>
+
+                          <FormMessage />
+                        </FormItem>
+                      );
+                    }}
+                  />
+
+                  {icc && (
+                    <FormField
+                      control={form.control}
+                      name="isStar"
+                      render={({ field }) => {
+                        return (
+                          <FormItem className="w-full">
+                            <FormControl>
+                              <Checkbox
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                              />
+                            </FormControl>
+                            <Label className="ml-2" htmlFor="isStar">
+                              Etes-vous un(e) S.T.A.R ?
+                            </Label>
+
+                            <FormMessage />
+                          </FormItem>
+                        );
+                      }}
+                    />
+                  )}
+                </div>
+
+                <FormField
+                  control={form.control}
+                  name="giId"
+                  render={({ field }) => {
+                    return (
+                      <FormItem className="w-1/2">
+                        <FormLabel>{"Groupe d'Impact"} </FormLabel>
+                        <Select onValueChange={field.onChange}>
+                          <SelectTrigger id="framework">
+                            <SelectValue placeholder="Selectionner un groupe d'Impact" />
+                          </SelectTrigger>
+                          <SelectContent position="popper">
+                            <SelectItem value="0">Aucun</SelectItem>
+                            {gis &&
+                              gis.map((gi: Gi) => (
+                                <SelectItem
+                                  key={gi.id}
+                                  value={gi.id.toString()}
+                                >
+                                  {gi.name}
+                                </SelectItem>
+                              ))}
+                          </SelectContent>
+                        </Select>
+
+                        <FormMessage />
+                      </FormItem>
+                    );
+                  }}
+                /> */}
+              </div>
+              <div className="flex md:justify-between md:items-center  max-md:flex-col">
+                <DialogClose asChild>
+                  <Button
+                    type="button"
+                    variant="secondary"
+                    className="text-red-600 max-md:mt-4"
+                  >
+                    Annuler
+                  </Button>
+                </DialogClose>
+                <Button className="max-md:mt-4" type="submit">
+                  Enregistrer
+                </Button>
+              </div>
+            </form>
+          </Form>
+        </DialogContent>
+      </Dialog>
+    </div>
+  );
+};
+
+export default AddAddressForm;

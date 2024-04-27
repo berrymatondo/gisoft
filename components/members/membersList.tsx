@@ -30,6 +30,8 @@ import {
   SelectValue,
 } from "../ui/select";
 import { useForm } from "react-hook-form";
+import Image from "next/image";
+import bgImage from "../../public/listmembers.png";
 
 type MembersListProps = {
   members: any;
@@ -52,17 +54,29 @@ const MembersList = ({ members, gis }: MembersListProps) => {
     //console.log("meetings after:", meetings);
   }
   return (
-    <Card className="w-full bg-[#1b4c48] text-white">
-      <CardHeader>
+    <div className="sm:col-span-3 w-full border-none bg-neutral-300/20 ">
+      <CardHeader className="bg-gradient-to-br  from-black/90 to-black/5 h-[200px] relative max-sm:p-2  m-1 rounded-md overflow-hidden">
+        <div className=" absolute top-0 left-0 -z-10">
+          <Image
+            src={bgImage}
+            alt="background"
+            placeholder="blur"
+            quality={100}
+            /*           style={{
+            width: "100px",
+          }} */
+            /*           className="absolute right-0 rounded-lg"
+             */
+          />
+        </div>
         <div className="flex justify-between items-center">
-          <CardTitle>
+          <CardTitle className="text-white text-4xl md:text-5xl">
             {"Liste des membres ("}
             {newMeets.length}
             {")"}
           </CardTitle>
-          <AddMemberForm openDialog={false} />
         </div>
-        <CardDescription className="text-yellow-400">
+        <CardDescription className="text-yellow-200 md:text-lg">
           {
             "Cette transaction affiche la liste de tous les membres des groupes d'impact"
           }
@@ -71,7 +85,10 @@ const MembersList = ({ members, gis }: MembersListProps) => {
       {/*       <CardContent>
        */}{" "}
       <>
-        <div className="grid w-full items-center gap-4">
+        <div className="grid w-full items-center gap-4 bg-white rounded-lg">
+          <div className=" text-end">
+            <AddMemberForm openDialog={false} />
+          </div>
           <div className="p-2 max-w-[200px]">
             <Form {...form}>
               <form>
@@ -123,16 +140,16 @@ const MembersList = ({ members, gis }: MembersListProps) => {
                */}{" "}
               <TableHeader>
                 <TableRow>
-                  <TableHead className=" text-teal-200">{"Membre"}</TableHead>
-                  <TableHead className=" text-teal-200  max-md:hidden">
+                  <TableHead className=" text-blue-600 ">{"Membre"}</TableHead>
+                  <TableHead className=" text-blue-600   max-md:hidden">
                     {"Téléphone"}
                   </TableHead>
-                  <TableHead className=" text-teal-200 max-md:hidden">
+                  <TableHead className=" text-blue-600  max-md:hidden">
                     {"Ville"}
                   </TableHead>
-                  <TableHead className=" text-teal-200">{"Groupe"}</TableHead>
+                  <TableHead className=" text-blue-600 ">{"Groupe"}</TableHead>
 
-                  <TableHead className="text-right text-teal-200"></TableHead>
+                  <TableHead className="text-right text-blue-600 "></TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -146,7 +163,7 @@ const MembersList = ({ members, gis }: MembersListProps) => {
       </>
       {/*       </CardContent>
        */}{" "}
-    </Card>
+    </div>
   );
 };
 

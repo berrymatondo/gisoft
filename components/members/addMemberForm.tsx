@@ -105,11 +105,11 @@ const AddMemberForm = ({ openDialog, giId }: AddMemberFormProps) => {
     <div className="">
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button className="text-black bg-yellow-400">Nouveau</Button>
+          <Button className=" bg-blue-600 m-2">Nouveau membre</Button>
         </DialogTrigger>
-        <DialogContent className=" bg-[#1b4c48] text-white">
+        <DialogContent className=" ">
           <DialogHeader>
-            <DialogTitle className="text-yellow-400">
+            <DialogTitle className="text-blue-600 text-4xl">
               Ajouter un nouveau membre
             </DialogTitle>
           </DialogHeader>

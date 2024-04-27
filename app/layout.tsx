@@ -8,11 +8,12 @@ import MobileNav from "@/components/navigation/mobile";
 import Image from "next/image";
 import bgImage from "../public/logo1.png";
 import { Toaster } from "@/components/ui/sonner";
+import HeaderVert from "@/components/navigation/headerVert";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "MonGi",
+  title: "Cellules d'Impact",
   description: "Plateforme de suivi d'un groupe d'impact",
 };
 
@@ -22,42 +23,39 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html
-      lang="en"
-      className="flex justify-center md:px-20 md:min-w-[1000px] max-w-[1200px]  mx-auto"
-    >
+    <html lang="en" className="h-full">
       <body
         suppressHydrationWarning={true}
-        className="flex flex-col justify-center items-center bg-[#1b4c48] max-h-lvh py-8 w-full  "
+        className="h-full bg-gradient-to-tr from-white to-gray-200"
       >
-        <div className="relative min-h-lvh flex flex-col justify-between md:mt-4 w-full  ">
+        <main className=" h-full  flex flex-col justify-between">
+          <Header />
+          <div className="relative h-full md:grid md:grid-cols-5">
+            <HeaderVert />
+            <div className=" w-full h-full md:col-span-4"> {children}</div>
+          </div>
+          {/*           <Footer />
+           */}{" "}
+        </main>
+
+        <Toaster richColors />
+      </body>
+    </html>
+    /*     <html lang="en" className="flex justify-center md:min-w-[1000px] relative">
+      <body
+        suppressHydrationWarning={true}
+        className="flex flex-col justify-center items-center max-h-lvh w-full bg-gradient-to-tr from-blue-200 to-purple-200"
+      >
+        <div className="relative min-h-lvh flex flex-col justify-between w-full  ">
           <div className="absolute inset-0 -z-20  rounded-lg"></div>
           <div className="w-full flex-1 flex flex-col">
             <Header />
-            <MobileNav />
-            {/*             <main className=" flex flex-col flex-1 bg-blue-400">
-             */}{" "}
-            <main className="flex flex-col flex-1 w-full ">{children}</main>
+            <main className="h-full">{children}</main>
           </div>
           <Footer />
         </div>
         <Toaster richColors />
       </body>
-
-      {/*       <body
-        suppressHydrationWarning={true}
-        className="flex flex-col justify-center items-center bg-[#1b4c48] max-h-lvh py-8 max-w-5xl mx-auto min-w-5xl"
-      >
-        <div className="relative min-h-lvh flex flex-col justify-between md:mt-4 w-full  ">
-          <div className="absolute inset-0 -z-20  rounded-lg"></div>
-          <div className="w-full flex-1 flex flex-col">
-            <Header />
-            <MobileNav />
-            <main className=" flex flex-col flex-1">{children}</main>
-          </div>
-          <Footer />
-        </div>
-      </body> */}
-    </html>
+    </html> */
   );
 }

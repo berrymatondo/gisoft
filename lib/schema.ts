@@ -11,8 +11,36 @@ export const giFormSchema = z.object({
   name: z.string().min(1, {
     message: "Le nom du groupe d'impact est obligatoire",
   }),
+  statut: z.string().optional(),
+  addressId: z.string().optional(),
   piloteId: z.string().optional(),
   secteurId: z.string().optional(),
+});
+
+export const addressFormSchema = z.object({
+  id: z.string().optional(),
+  street: z.string().min(1, {
+    message: "Le nom de la rue est obligatoire",
+  }),
+  number: z.string().min(1, {
+    message: "Le numéro est obligatoire",
+  }),
+  box: z.string().optional(),
+  municipality: z.string().min(1, {
+    message: "La commune  est obligatoire",
+  }),
+  postalCode: z.string().min(1, {
+    message: "Le code postal est obligatoire",
+  }),
+  city: z.string().min(1, {
+    message: "Le nom de la ville est obligatoire",
+  }),
+  country: z.string().min(1, {
+    message: "Le nom du pays est obligatoire",
+  }),
+
+  longitude: z.string().optional(),
+  latitude: z.string().optional(),
 });
 
 export const personFormSchema = z.object({

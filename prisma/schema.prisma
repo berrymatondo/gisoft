@@ -10,6 +10,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum GiStatuses {
+ ACTIF
+ INACTIF
+ SUSPENDU
+ // amount Decimal?  @mysql.Decimal(10, 2)
+}
 
 model Secteur {
   id Int @id @default(autoincrement())
@@ -26,13 +32,38 @@ model Secteur {
 model Gi {
   id Int @id @default(autoincrement())
   name String @unique
+  hours String @default("De 19h à 20h30")
+  days String  @default("Tous les jeudis")
+  statut GiStatuses @default(INACTIF)
   persons Person[] 
   meetings Meeting[] 
 
   
   secteurId Int?
   secteur Secteur? @relation(fields: [secteurId], references: [id])
+
+  addressId Int?
+  address Address? @relation(fields: [addressId], references: [id]) 
   
+  createAt DateTime? @default(now())
+  updatedAt DateTime?  @updatedAt
+}
+
+model Address {
+  id Int @id @default(autoincrement())
+  street String
+  number String
+  box String?
+  municipality String
+  postalCode String
+  city String
+  country String
+
+  longitude String?
+  latitude String?
+
+  gi Gi[] 
+
   createAt DateTime? @default(now())
   updatedAt DateTime?  @updatedAt
 }

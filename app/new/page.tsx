@@ -139,12 +139,14 @@ const NewPublicMember = () => {
 
   return (
     <div className="w-full px-1">
-      <Card className="w-full bg-[#1b4c48] text-white">
+      <Card className="w-full ">
         <CardHeader>
           <div className="flex justify-between items-center">
-            <CardTitle>{"Inscription au groupe d'impact"}</CardTitle>
+            <CardTitle className="text-blue-600">
+              {"Inscription au groupe d'impact"}
+            </CardTitle>
           </div>
-          <CardDescription className="text-yellow-400">
+          <CardDescription className="text-neutral-600">
             {"Cette transaction permet de s'enregistrer à un groupe d'impact"}
           </CardDescription>
         </CardHeader>
@@ -323,7 +325,10 @@ const NewPublicMember = () => {
                 >
                   Tout effacer
                 </Button> */}
-                <Button className="max-md:mt-4" type="submit">
+                <Button
+                  className="bg-teal-700 text-white max-md:mt-4"
+                  type="submit"
+                >
                   Enregistrer
                 </Button>
               </div>

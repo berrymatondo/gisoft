@@ -81,23 +81,27 @@ const DeleteMeetingForm = ({ meeting }: DeleteMeetingProps) => {
       {" "}
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild className="max-md:hidden">
-          <Button className="text-red-600 bg-white">Supprimer</Button>
+          <Button className="text-red-600 " variant="link">
+            Supprimer
+          </Button>
         </DialogTrigger>
         <DialogTrigger asChild className="md:hidden">
           <span>
             <MdDeleteForever className="text-red-600 md:hidden" size={25} />{" "}
           </span>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px] bg-[#1b4c48] text-white">
+        <DialogContent className="sm:max-w-[425px] ">
           <DialogHeader>
-            <DialogTitle>{"Supprimer un rapport"}</DialogTitle>
+            <DialogTitle className="text-blue-600 text-4xl">
+              {"Supprimer un rapport"}
+            </DialogTitle>
           </DialogHeader>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(procesForm)}>
               <div className="grid gap-4 py-4">
                 <Label className="text-center">
                   {`Etes-vous sûr de vouloir supprimer le rapport du `}{" "}
-                  <strong className="text-yellow-400">
+                  <strong className="text-blue-600">
                     {format(new Date(meeting.date), "dd/MM/yyyy")}
                   </strong>{" "}
                   {`?`}
