@@ -67,6 +67,9 @@ export const getGi = async (id: string) => {
       where: {
         id: +id,
       },
+      include: {
+        secteur: true,
+      },
     });
     return gi;
   } catch (error) {

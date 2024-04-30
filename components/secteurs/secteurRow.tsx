@@ -15,8 +15,8 @@ const SecteurRow = ({ secteurId, secteur, index }: SecteurRowProps) => {
     <div
       className={
         secteur.gis.filter((gii: Gi) => gii.statut == "ACTIF").length < 1
-          ? "pointer-events-none border text-red-600 border-white m-1 p-2 rounded-lg flex justify-between"
-          : "hover:cursor-pointer hover:bg-black/10 border text-green-700 font-semibold bg-white border-neutral-600   m-1 p-2 rounded-lg flex justify-between"
+          ? "pointer-events-none border text-neutral-400 border-white m-1 p-2 rounded-lg flex justify-between"
+          : "hover:cursor-pointer hover:bg-black/10 border text-green-700 font-semibold bg-white border-neutral-300   m-1 p-2 rounded-lg flex justify-between"
       }
       onClick={() => router.push(`/secteurs/${secteurId}`)}
     >

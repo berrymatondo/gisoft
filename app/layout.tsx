@@ -26,7 +26,7 @@ export default function RootLayout({
     <html lang="en" className="h-full">
       <body
         suppressHydrationWarning={true}
-        className="h-full bg-gradient-to-tr from-white to-gray-200"
+        className="h-full bg-gradient-to-b from-[#CFE9EA] to-[#F2F7F2]"
       >
         <main className=" h-full  flex flex-col justify-between">
           <Header />

@@ -14,7 +14,7 @@ import { getAddresses } from "@/lib/addresses";
 import { getGis } from "@/lib/gis";
 import Image from "next/image";
 import { CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import bgImage from "../../public/allgis.png";
+import bgImage from "../../public/mappy.png";
 
 const LazyMap = dynamic(() => import("@/components/map/map"), {
   ssr: false,
@@ -48,7 +48,7 @@ const MaPPage = () => {
   return (
     <div className="h-full sm:py-8 sm:px-32 w-full">
       <div className="sm:col-span-3 w-full border-none bg-neutral-300/20 ">
-        <CardHeader className="bg-gradient-to-br  from-black/60 to-black/10 h-[200px] relative max-sm:p-2  m-1 rounded-md overflow-hidden">
+        <CardHeader className="bg-gradient-to-br  from-black/60 to-black/10 h-[150px] relative max-sm:p-2  m-1 rounded-md overflow-hidden">
           <div className=" absolute top-0 left-0 -z-10">
             <Image
               src={bgImage}
@@ -59,7 +59,7 @@ const MaPPage = () => {
           </div>
           <div className="flex justify-between items-center ">
             <CardTitle className="text-white text-4xl md:text-5xl">
-              {"Carte de tous les hôtes"}
+              {"Les cellules d'Impact"}
             </CardTitle>
           </div>
           <CardDescription className="text-yellow-200 md:text-lg">
@@ -68,7 +68,7 @@ const MaPPage = () => {
         </CardHeader>
         <div className="sm:col-span-3 w-full border-none bg-neutral-300/20 ">
           <div className="p-2 text-xl">
-            <SecteurBreadcrumb name={"Carte de toutes les cellules"} />
+            <SecteurBreadcrumb name={"Les cellules d'Impact"} />
           </div>
           <LazyMap addresses={addresses} gis={gis} secteurId={""} />
         </div>
@@ -92,7 +92,7 @@ const SecteurBreadcrumb = ({ name }: { name: string }) => {
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <BreadcrumbPage>{name}</BreadcrumbPage>
+          <BreadcrumbPage className="font-semibold">{name}</BreadcrumbPage>
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>

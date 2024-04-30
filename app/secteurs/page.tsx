@@ -101,7 +101,7 @@ const SecteursPage = async ({
               className={
                 skip == 0
                   ? "pointer-events-none bg-neutral-300 rounded-full p-2 text-neutral-500"
-                  : "bg-purple-600 rounded-full p-2 text-white  text-sm"
+                  : "bg-[#317375] text-primary-foreground hover:bg-[#1b3738] rounded-full p-2   text-sm"
               }
             >
               {"Précédent"}
@@ -118,7 +118,7 @@ const SecteursPage = async ({
               className={
                 skip + secteurs.length >= userCount
                   ? " text-sm pointer-events-none bg-neutral-300 rounded-full p-2 text-neutral-500"
-                  : " text-sm bg-purple-600 rounded-full p-2 text-white"
+                  : " text-sm  p-2 bg-[#317375] text-primary-foreground hover:bg-[#1b3738] rounded-full"
               }
             >
               {"Suivant"}
@@ -128,9 +128,9 @@ const SecteursPage = async ({
         <div className="p-2 text-xl flex justify-between gap-8 items-center">
           <div className="flex justify-between gap-2 items-center">
             <SecteurBreadcrumb name="xxx" />
-            <span className="text-sm font-bold bg-white p-1 px-1.5 rounded-full">
+            {/*             <span className="text-sm font-bold bg-[#317375] text-primary-foreground p-1 px-1.5 rounded-full">
               {secteurs.length}
-            </span>
+            </span> */}
           </div>
           <Link
             href="/map"
@@ -166,7 +166,7 @@ const SecteurBreadcrumb = ({ name }: { name: string }) => {
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <BreadcrumbPage>Secteurs</BreadcrumbPage>
+          <BreadcrumbPage className="font-semibold">Secteurs</BreadcrumbPage>
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>

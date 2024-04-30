@@ -34,7 +34,7 @@ export default function Home() {
         />
       </div>
       <div className="border h-1/2 sm:w-1/2">
-        <div className="flex flex-col justify-center  max-md:bg-white/70 m-1 p-2 rounded-lg">
+        <div className="flex flex-col justify-center  bg-gradient-to-r from-[#CFE9EA] to-[#CFE9EA] m-1 p-2 rounded-lg">
           <div className="bg-clip-text text-transparent bg-gradient-to-r from-purple-800 to-orange-600 flex flex-col justify-center text-3xl font-semibold pb-4">
             <p className="text-center md:text-6xl">{"Servir Dieu à travers"}</p>
             <p className="text-center md:text-6xl">{"les cellules d'Impact"}</p>
@@ -42,8 +42,9 @@ export default function Home() {
 
           <p className="text-center text-sm md:text-lg text-neutral-600">
             {
-              "Trouve et rejoins rapidement une cellule de maison à proximité de chez toi et viens y servir le Seigneur avec IMPACT"
-            }
+              "Trouve et rejoins rapidement une cellule de maison à proximité de chez toi et viens y servir le Seigneur avec "
+            }{" "}
+            <span className="font-semibold text-xl">IMPACT</span>
           </p>
 
           <div className="flex flex-col justify-center pt-4 md:mt-8 gap-8">
@@ -83,7 +84,7 @@ export default function Home() {
                 </div>
               </Link>
             </div>
-            <Link href="/gis" className="text-center text-purple-800 text-ms">
+            <Link href="/infos" className="text-center text-purple-800 text-ms">
               {"Plus d'informations"}
             </Link>
 

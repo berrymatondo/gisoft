@@ -8,7 +8,12 @@ import {
 } from "@/components/ui/breadcrumb";
 import { prisma } from "@/lib/prisma";
 import React from "react";
-import { MdOutlineLocationOn, MdOutlinePerson, MdPeople } from "react-icons/md";
+import {
+  MdOutlineCalendarMonth,
+  MdOutlineLocationOn,
+  MdOutlinePerson,
+  MdPeople,
+} from "react-icons/md";
 import { FaMobileAlt } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -80,7 +85,7 @@ const SecteurPage = async ({ params }: SecteurProps) => {
             <strong className="pl-2 text-purple-800">
               {secteur?.gis.filter((gii: Gi) => gii.statut == "ACTIF").length}
             </strong>{" "}
-            {" cellule(s) d'Impact trouvé(e)s à "}{" "}
+            {" cellule(s) d'Impact trouvée(s) à "}{" "}
             <strong className="uppercase text-purple-800">
               {secteur?.name}
             </strong>
@@ -88,7 +93,7 @@ const SecteurPage = async ({ params }: SecteurProps) => {
         </div>
         <Link
           href={`/map/${params.secteurId}`}
-          className=" flex justify-center items-center gap-2 m-2 p-1 text-sm border bg-white shadow-xl rounded-full"
+          className=" flex justify-center items-center gap-2 p-1 text-sm border bg-white shadow-xl rounded-full"
         >
           Voir sur la carte <HiMapPin className="text-red-600" size={30} />
         </Link>
@@ -110,7 +115,7 @@ const SecteurPage = async ({ params }: SecteurProps) => {
         .map((gi) => (
           <div
             key={gi.id}
-            className="mb-2 relative border bg-gradient-to-r from-white to-neutral-300/60 shadow-lg   rounded-lg m-1 p-4"
+            className="mb-2 relative border bg-white shadow-lg   rounded-lg m-1 p-4"
           >
             {/*           <Image
             src={bgImage}
@@ -139,7 +144,7 @@ const SecteurPage = async ({ params }: SecteurProps) => {
                 </span>
               </p>
             </div>
-            <div className="flex justify-center gap-4 mb-2">
+            <div className="flex justify-between gap-4 mb-2">
               <p className="flex gap-2 items-center">
                 <span className="">
                   <MdOutlinePerson />{" "}
@@ -148,14 +153,28 @@ const SecteurPage = async ({ params }: SecteurProps) => {
               </p>
               <p className="flex items-center">
                 <span className="">
+                  <MdOutlineCalendarMonth />
+                </span>
+                <span>Tous les jeudis</span>
+              </p>
+            </div>
+            <div className="flex justify-between gap-4 mb-2">
+              <p className="flex items-center">
+                <span className="">
                   <FaMobileAlt />
                 </span>
                 <span>+32 45 67 89</span>
               </p>
+              <p className="flex gap-2 justify-center items-center">
+                <span className="">
+                  <LuClock7 />{" "}
+                </span>
+                <span>{"19h à 20h30"}</span>
+              </p>
             </div>
             <Link
               href={`/map/${params.secteurId}`}
-              className="font-semibold flex gap-2 justify-center items-center pt-2"
+              className="italic font-semibold flex gap-2 justify-center items-center pt-2"
             >
               <span className="text-orange-500">
                 {" "}
@@ -167,15 +186,8 @@ const SecteurPage = async ({ params }: SecteurProps) => {
               </span>
             </Link>
 
-            <p className="flex gap-2 justify-center items-center">
-              <span className="">
-                <LuClock7 />{" "}
-              </span>
-              <span>{"De 19h à 20h30"}</span>
-            </p>
-
             <Link href={`/new/${gi.id}`}>
-              <div className="mt-2 text-center text-white font-semibold p-2 rounded-lg w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:bg-gradient-to-r hover:from-blue-500 hover:to-purple-500">
+              <div className="mt-2 text-center text-black font-semibold p-2   w-full bg-[#317375] text-primary-foreground hover:bg-[#1b3738] rounded-full ">
                 {"Rejoindre "} {gi.name}
               </div>
             </Link>
@@ -200,7 +212,7 @@ const SecteurBreadcrumb = ({ name }: { name: string }) => {
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <BreadcrumbPage>{name}</BreadcrumbPage>
+          <BreadcrumbPage className="font-semibold">{name}</BreadcrumbPage>
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>
