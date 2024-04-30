@@ -8,11 +8,23 @@ const MembersPage = async () => {
       gi: true,
       secteurs: true,
     },
+
+    orderBy: {
+      lastname: "asc",
+    },
+  });
+
+  const gis = await prisma.gi.findMany({
+    include: {
+      secteur: true,
+      // secteurs: true,
+    },
+    orderBy: { name: "asc" },
   });
 
   return (
-    <div className="h-full flex-1 px-1 w-full">
-      <MembersList members={members} />
+    <div className="h-full py-8 px-32 w-full">
+      <MembersList members={members} gis={gis} />
     </div>
   );
 };

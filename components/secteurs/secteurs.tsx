@@ -8,7 +8,7 @@ const AllSecteurs = async () => {
     },
   });
 
-  console.log("SEC:", secteurs);
+  //console.log("SEC:", secteurs);
 
   return <div>Secteurs</div>;
 };

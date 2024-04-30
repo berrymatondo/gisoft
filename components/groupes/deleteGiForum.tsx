@@ -90,23 +90,27 @@ const DeleteGiForm = ({ gi }: DeleteGiFormProps) => {
       {" "}
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild className="max-md:hidden">
-          <Button className="text-red-600 bg-white">Supprimer</Button>
+          <Button variant="link" className="text-red-600">
+            Supprimer
+          </Button>
         </DialogTrigger>
         <DialogTrigger asChild className="md:hidden">
           <span>
             <MdDeleteForever className="text-red-600 md:hidden" size={25} />{" "}
           </span>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px] bg-[#1b4c48] text-white">
+        <DialogContent className="sm:max-w-[425px] ">
           <DialogHeader>
-            <DialogTitle>{"Supprimer un groupe d'impact"}</DialogTitle>
+            <DialogTitle className="text-blue-600 text-4xl">
+              {"Supprimer un groupe d'impact"}
+            </DialogTitle>
           </DialogHeader>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(procesForm)}>
               <div className="grid gap-4 py-4">
                 <Label className="text-center">
                   {`Etes-vous sûr de vouloir supprimer le groupe d'impact `}{" "}
-                  <strong className="text-yellow-400">{gi.name}</strong> {`?`}
+                  <strong className="text-blue-600">{gi.name}</strong> {`?`}
                 </Label>
               </div>
               <DialogFooter className="md:flex md:justify-between md:items-center">
@@ -125,27 +129,6 @@ const DeleteGiForm = ({ gi }: DeleteGiFormProps) => {
               </DialogFooter>
             </form>
           </Form>
-          {/*           <div className="grid gap-4 py-4">
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="name" className="text-right">
-                    Name
-                  </Label>
-                  <Input id="name" value={secteur.name} className="col-span-3" />
-                </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="username" className="text-right">
-                    Référent
-                  </Label>
-                  <Input id="username" value="@peduarte" className="col-span-3" />
-                </div>
-              </div> 
-              <DialogFooter className="max-md:grid max-md:grid-cols-3 max-md:gap-2  max-md:">
-                <Button onClick={() => setOpen(false)} className="bg-white">
-                  Annuler
-                </Button>
-                <Button className="bg-white text-red-600">Supprimer</Button>
-                <Button type="submit">Sauvegarder</Button>
-              </DialogFooter>*/}
         </DialogContent>
       </Dialog>
     </div>

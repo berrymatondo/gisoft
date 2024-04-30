@@ -34,16 +34,18 @@ import {
   SelectValue,
 } from "../ui/select";
 import { toast } from "sonner";
-import { Gi, Secteur } from "@prisma/client";
+import { Gi, Secteur, GiStatuses, Address } from "@prisma/client";
 import { giFormSchema } from "@/lib/schema";
 import { getGi, updateGi } from "@/lib/gis";
+import GroupesList from "./groupesList";
 
 type EditGiProps = {
   gi: Gi;
   secteurs: any;
+  addresses: any;
 };
 
-const UpdateGiForm = ({ gi, secteurs }: EditGiProps) => {
+const UpdateGiForm = ({ gi, secteurs, addresses }: EditGiProps) => {
   //console.log("DANS update:", secteurs);
 
   const [open, setOpen] = useState(false);
@@ -54,7 +56,7 @@ const UpdateGiForm = ({ gi, secteurs }: EditGiProps) => {
       const data = await getGi(gi.id.toString());
       // const data = res.json();
 
-      // console.log("actions: ", data);
+      //console.log("actions: ", data);
 
       setFoundGi(data);
     };
@@ -66,6 +68,8 @@ const UpdateGiForm = ({ gi, secteurs }: EditGiProps) => {
     defaultValues: {
       id: gi.id.toString(),
       name: gi.name,
+      statut: gi.statut,
+      addressId: gi.addressId?.toString(),
       secteurId: gi.secteurId?.toString(),
     },
   });
@@ -98,16 +102,20 @@ const UpdateGiForm = ({ gi, secteurs }: EditGiProps) => {
       {" "}
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild className="max-md:hidden">
-          <Button className="bg-orange-400 text-white">Editer</Button>
+          <Button variant="outline" className="">
+            Editer
+          </Button>
         </DialogTrigger>
         <DialogTrigger asChild className="md:hidden">
           <span>
             <MdEdit className="text-orange-400 md:hidden" size={20} />
           </span>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px] bg-[#1b4c48] text-white">
+        <DialogContent className="sm:max-w-[500px]">
           <DialogHeader>
-            <DialogTitle>{"Modifier un groupe d'impact"}</DialogTitle>
+            <DialogTitle className="text-blue-600 text-4xl">
+              {"Modifier un groupe d'impact"}
+            </DialogTitle>
           </DialogHeader>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(procesForm)}>
@@ -145,10 +153,6 @@ const UpdateGiForm = ({ gi, secteurs }: EditGiProps) => {
                         >
                           <SelectTrigger id="framework">
                             <SelectValue placeholder="Selectionner un secteur" />
-                            {/*                             <SelectValue placeholder="Selectionner un secteur" />
-                             */}
-                            {/*                             <SelectValue value={"uccle"} />
-                             */}{" "}
                           </SelectTrigger>
                           <SelectContent position="popper">
                             <SelectItem className="text-red-600" value="00">
@@ -162,6 +166,77 @@ const UpdateGiForm = ({ gi, secteurs }: EditGiProps) => {
                                 {ref.name}
                               </SelectItem>
                             ))}
+                          </SelectContent>
+                        </Select>
+
+                        <FormMessage />
+                      </FormItem>
+                    );
+                  }}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="addressId"
+                  render={({ field }) => {
+                    return (
+                      <FormItem>
+                        <FormLabel>{"Adresse de a cellule"} </FormLabel>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <SelectTrigger id="framework">
+                            <SelectValue placeholder="Selectionner une adresse" />
+                          </SelectTrigger>
+                          <SelectContent position="popper">
+                            <SelectItem className="text-red-600" value="00">
+                              {"Aucune adresse pour cette cellule"}
+                            </SelectItem>
+                            {addresses.map((ref: Address) => (
+                              <SelectItem
+                                key={ref.id}
+                                value={ref.id.toString()}
+                              >
+                                {ref.street}, {ref.number} {ref.municipality}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+
+                        <FormMessage />
+                      </FormItem>
+                    );
+                  }}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="statut"
+                  render={({ field }) => {
+                    return (
+                      <FormItem>
+                        <FormLabel>
+                          {"Statut de la cellule d'impact"}{" "}
+                        </FormLabel>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <SelectTrigger id="framework">
+                            <SelectValue placeholder="Selectionner un statut" />
+                          </SelectTrigger>
+                          <SelectContent position="popper">
+                            <SelectItem className="text-red-600" value="00">
+                              {"Aucun statut"}
+                            </SelectItem>
+                            {Object.values(GiStatuses)
+                              ? Object.values(GiStatuses).map((status: any) => (
+                                  <SelectItem key={status} value={status}>
+                                    {status}
+                                  </SelectItem>
+                                ))
+                              : null}
                           </SelectContent>
                         </Select>
 

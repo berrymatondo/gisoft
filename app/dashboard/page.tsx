@@ -1,3 +1,4 @@
+import LineCharts from "@/components/charts/lineCharts";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -8,53 +9,60 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { FormField, FormItem, FormLabel } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { getGis } from "@/lib/gis";
+import { getMembers } from "@/lib/members";
 import { prisma } from "@/lib/prisma";
+import { format } from "date-fns";
 import React from "react";
 
+export const dynamic = "force-dynamic";
+
 const DashboardPage = async () => {
-  const sec = await prisma.secteur.findFirst({
-    where: {
-      name: "forest",
+  const meetings = await prisma.meeting.findMany({
+    orderBy: {
+      date: "asc",
     },
   });
+
+  const ms = meetings.map(({ id, nPar, nNew, giId, date }) => ({
+    id,
+    nPar,
+    nNew,
+    giId,
+    date: format(new Date(date), "dd/MM/yyyy"),
+  }));
+
+  const gis = await getGis();
+  const members = await getMembers();
+
+  //console.log("Meetings:", meetings);
+  //console.log("ms:", ms);
+
+  /*   useEffect(() => {
+    const fetchGis = async () => {
+      const data = await getGis();
+      //const data = res.json();
+
+      // console.log("actions: ", data);
+
+      setGis(data);
+    };
+    fetchGis();
+  }, []); */
+
   return (
-    <div>
-      DashboardPage : {sec?.name}
-      <p>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Molestias
-        temporibus voluptates quam id necessitatibus consequatur quod eius
-        doloremque accusantium ad nemo saepe nisi laboriosam, facilis nostrum
-        quibusdam enim! Molestiae, voluptatem.
-      </p>
-      <Dialog>
-        <DialogTrigger asChild>
-          <Button variant="outline">Edit Profile</Button>
-        </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>Edit profile</DialogTitle>
-          </DialogHeader>
-          <div className="grid gap-4 py-4">
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="name" className="text-right">
-                Name
-              </Label>
-              <Input id="name" value="Pedro Duarte" className="col-span-3" />
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="username" className="text-right">
-                Username
-              </Label>
-              <Input id="username" value="@peduarte" className="col-span-3" />
-            </div>
-          </div>
-          <DialogFooter>
-            <Button type="submit">Save changes</Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+    <div className="flex justify-start px-2">
+      <LineCharts meetings={ms} members={members} gis={gis} />
     </div>
   );
 };

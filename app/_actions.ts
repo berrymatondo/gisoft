@@ -1,9 +1,9 @@
 "use server";
 
-import { addGi, getGis } from "@/lib/gis";
+import { addGi, getGis, getGisPages } from "@/lib/gis";
 import { secteurFormSchema } from "@/lib/schema";
 import { getSecteurs } from "@/lib/secteurs";
-import { z } from "zod";
+import { number, z } from "zod";
 
 type Inputs = z.infer<typeof secteurFormSchema>;
 
@@ -22,4 +22,11 @@ export const addGiAction = async (data: Inputs) => {
 
 export const getGisAction = async () => {
   return await getGis();
+};
+
+export const getGisPagesAction = async (take: number, skip: number) => {
+  return await getGisPages({
+    take,
+    skip,
+  });
 };

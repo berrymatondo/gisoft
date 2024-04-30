@@ -50,12 +50,21 @@ type GiProps = {
 
 const GiPage = ({ params }: GiProps) => {
   //console.log("DANS update:", secteurs);
-  console.log("{params.giId}: ", params.giId);
+  //console.log("{params.giId}: ", params.giId);
 
   const [open, setOpen] = useState(true);
   const [foundGi, setFoundGi] = useState<any>();
   const [secteurs, setSecteurs] = useState<any>();
   const router = useRouter();
+
+  const form = useForm<z.infer<typeof giFormSchema>>({
+    resolver: zodResolver(giFormSchema),
+    defaultValues: {
+      id: foundGi?.id.toString(),
+      name: foundGi?.name,
+      secteurId: foundGi?.secteurId?.toString(),
+    },
+  });
 
   useEffect(() => {
     const fetchGi = async () => {
@@ -67,7 +76,7 @@ const GiPage = ({ params }: GiProps) => {
       setFoundGi(data);
 
       if (data && form) {
-        console.log("OK----------------------");
+        //console.log("OK----------------------");
         form.setValue("id", data?.id.toString());
         form.setValue("name", data?.name);
         form.setValue("secteurId", data?.secteurId?.toString());
@@ -79,21 +88,12 @@ const GiPage = ({ params }: GiProps) => {
       const data = await getSecteurs();
       // const data = res.json();
 
-      console.log("fetchSecteurs: ", data);
+      //console.log("fetchSecteurs: ", data);
 
       setSecteurs(data);
     };
     fetchSecteurs();
-  }, []);
-
-  const form = useForm<z.infer<typeof giFormSchema>>({
-    resolver: zodResolver(giFormSchema),
-    defaultValues: {
-      id: foundGi?.id.toString(),
-      name: foundGi?.name,
-      secteurId: foundGi?.secteurId?.toString(),
-    },
-  });
+  }, [params.giId, form]);
 
   const procesForm = async (values: z.infer<typeof giFormSchema>) => {
     // console.log("Values:", values);
@@ -107,7 +107,7 @@ const GiPage = ({ params }: GiProps) => {
     }
 
     if (res!.error) {
-      console.log(res!.error);
+      //console.log(res!.error);
       return;
     }
 
