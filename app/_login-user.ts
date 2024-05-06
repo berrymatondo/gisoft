@@ -40,7 +40,7 @@ export const login = async (data: z.infer<typeof LoginSchema>) => {
       verificationToken.token
     );
 
-    return { success: "Un mail de confirmation est envoyé" };
+    return { success: "Veillez d'abord confirmer votre email !" };
   }
 
   try {

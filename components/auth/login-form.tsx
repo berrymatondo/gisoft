@@ -46,10 +46,6 @@ export const LoginForm = () => {
         const data = await login(values);
         setError(data?.error);
         setSuccess(data?.success);
-
-        // if (data?.success) {
-        //   toast.success("Connexion réussie");
-        // }
       } catch (error) {
         setError("Une erreur s'est produite lors de la connexion.");
       } finally {
